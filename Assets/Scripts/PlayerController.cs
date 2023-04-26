@@ -1,9 +1,14 @@
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	public event Action Dash;
+
 	[SerializeField] CharacterController _charController;
+	[SerializeField] Transform _modelRoot;
 	[SerializeField] float _playerSpeed = 10.0f;
 	[SerializeField] float _dashDuration = 1f;
 	[SerializeField] float _dashDistance = 10.0f;
@@ -30,6 +35,14 @@ public class PlayerController : MonoBehaviour
 		_playerInput = playerInput;
 		_playerInput.defaultActionMap = playerName;
 		ForceSetPosition(spawnPosition);
+		SetupModel();
+	}
+
+	async Task SetupModel()
+	{
+		var loader = new AddressableResourceLoader();
+		GameObject model = await loader.Load<GameObject>("PlayerPrefab_" + _playerIndex);
+		Instantiate(model, _modelRoot, false);
 	}
 
 	void Update()
@@ -79,11 +92,18 @@ public class PlayerController : MonoBehaviour
 		_dashStartPos = transform.position;
 		_dashEndPos = _dashStartPos + (transform.forward * _dashDistance);
 		_lastDashTime = Time.time;
+		Dash?.Invoke();
 	}
 
 	bool IsDashCooldown()
 	{
 		return _lastDashTime > 0 && Time.time - _lastDashTime < _dashDelay;
+	}
+	
+	void OnControllerColliderHit(ControllerColliderHit other)
+	{
+		_isDashing = false;
+		//TODO: steal mic?
 	}
 
 	#region Input Actions
