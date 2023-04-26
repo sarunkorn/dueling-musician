@@ -6,6 +6,7 @@ Shader "Master"
 	{
 		_Color("Color", Color) = (0,0,0,0)
 		_Texture("Texture", 2D) = "white" {}
+		[Toggle]_UseVertexColor("UseVertexColor", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -20,8 +21,10 @@ Shader "Master"
 		struct Input
 		{
 			float2 uv_texcoord;
+			float4 vertexColor : COLOR;
 		};
 
+		uniform float _UseVertexColor;
 		uniform float4 _Color;
 		uniform sampler2D _Texture;
 		uniform float4 _Texture_ST;
@@ -29,7 +32,7 @@ Shader "Master"
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
 			float2 uv_Texture = i.uv_texcoord * _Texture_ST.xy + _Texture_ST.zw;
-			o.Albedo = ( _Color * tex2D( _Texture, uv_Texture ) ).rgb;
+			o.Albedo = (( _UseVertexColor )?( i.vertexColor ):( ( _Color * tex2D( _Texture, uv_Texture ) ) )).rgb;
 			o.Alpha = 1;
 		}
 
@@ -44,8 +47,12 @@ Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;-1;2;A
 Node;AmplifyShaderEditor.ColorNode;1;-820,-234.1;Inherit;False;Property;_Color;Color;0;0;Create;True;0;0;0;False;0;False;0,0,0,0;0.5660378,0.5660378,0.5660378,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;2;-447,-100.9;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;3;-927,-13.89999;Inherit;True;Property;_Texture;Texture;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-WireConnection;0;0;2;0
+Node;AmplifyShaderEditor.VertexColorNode;4;-693,-419.55;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ToggleSwitchNode;5;-236,-108.55;Inherit;False;Property;_UseVertexColor;UseVertexColor;2;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+WireConnection;0;0;5;0
 WireConnection;2;0;1;0
 WireConnection;2;1;3;0
+WireConnection;5;0;2;0
+WireConnection;5;1;4;0
 ASEEND*/
-//CHKSM=BD3D6BCFCA5E6712B9F928D58F1B0C52DDC46D10
+//CHKSM=353BDA5FEBBE1CA5AB0F61C0E5CF08B9B17F091E
