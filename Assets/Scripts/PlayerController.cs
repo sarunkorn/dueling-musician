@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _dashDuration = 1f;
 	[SerializeField] float _dashDistance = 10.0f;
 	[SerializeField] float _dashDelay = 5f;
+
+	[Header("Reference")] 
+	[SerializeField] GameObject _micParticle;
 	
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
@@ -50,6 +53,7 @@ public class PlayerController : MonoBehaviour
 		_playerIndex = playerIndex;
 		_playerInput = playerInput;
 		_playerInput.defaultActionMap = playerName;
+		_micParticle.SetActive(false);
 		ForceSetPosition(spawnPosition);
 		SetupModel();
 	}
@@ -62,9 +66,10 @@ public class PlayerController : MonoBehaviour
 	
 	public void GetMicrophone()
 	{
-		Debug.Assert(_hasMic, "Shouldn't have mic.");
+		Debug.Assert(!_hasMic, "Shouldn't have mic.");
 		_hasMic = true;
 		_lastMicTime = Time.time;
+		_micParticle.SetActive(true);
 		GotMic?.Invoke(_playerIndex);
 	}
 	
@@ -72,6 +77,7 @@ public class PlayerController : MonoBehaviour
 	{
 		Debug.Assert(_hasMic, "Should have mic.");
 		_hasMic = false;
+		_micParticle.SetActive(false);
 		LostMic?.Invoke(_playerIndex);
 	}
 
@@ -147,6 +153,7 @@ public class PlayerController : MonoBehaviour
 			if (other.gameObject.CompareTag("Microphone"))
 			{
 				GetMicrophone();
+				Destroy(other.gameObject);
 			}
 			else if (other.gameObject.CompareTag("Player"))
 			{

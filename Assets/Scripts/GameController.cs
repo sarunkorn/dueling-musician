@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
 		var controller = playerInput.GetComponent<PlayerController>();
 		int currentIndex = _playerIndex;
 		controller.Init(currentIndex, playerInput, _spawnPoints[currentIndex].position);
+		//TODO: team up?
+		controller.SetTeam(currentIndex);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		_playerList.Add(controller);
