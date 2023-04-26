@@ -1,35 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
 	[SerializeField] PlayerController _playerControllerPrefeb;
 	[SerializeField] Transform[] _spawnPoints;
-	
-	//TODO: set from menu
-	[SerializeField] int _numberOfPlayers;
 
-	public int NumberOfPlayer => _numberOfPlayers;
+	public int NumberOfPlayer => _playerList.Count;
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
 
-	
-	//TODO: change to init later
-	public void Start()
+	int playerIndex = 0;
+
+	void InitPlayer(PlayerInput playerInput)
 	{
-		InitPlayers(_numberOfPlayers);
+		var controller = playerInput.GetComponent<PlayerController>();
+		controller.Init(playerIndex, playerInput, _spawnPoints[playerIndex].position);
+		_playerList.Add(controller);
+		Debug.Log("Created player " + playerIndex);
+		playerIndex++;
 	}
 
-	void InitPlayers(int numberOfPlayer)
+	public void PlayerJoinedEvent(PlayerInput playerInput)
 	{
-		_numberOfPlayers = numberOfPlayer;
+		Debug.Log("Player joined");
+		InitPlayer(playerInput);
+	}
 
-		for (int i = 0; i < _numberOfPlayers; i++)
-		{
-			PlayerController controller = Instantiate(_playerControllerPrefeb, _spawnPoints[i], false);
-			controller.Init(i);
-			_playerList.Add(controller);
-		}
+	public void PlayerLeftEvent(PlayerInput playerInput)
+	{
+		Debug.Log("Player left");
 	}
 }
