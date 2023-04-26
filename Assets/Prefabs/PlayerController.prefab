@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: -4708437550725594137}
   m_Layer: 0
   m_Name: PlayerController
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,6 +82,7 @@ MonoBehaviour:
   _dashDuration: 0.2
   _dashDistance: 3
   _dashDelay: 3
+  _micStealDelay: 2
 --- !u!143 &8774872537127859477
 CharacterController:
   m_ObjectHideFlags: 0

@@ -6,7 +6,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	public event Action Dash;
+	public event Action<int> GotMic;
+	public event Action<int> LostMic;
 
+
+	[Header("Movement")]
 	[SerializeField] CharacterController _charController;
 	[SerializeField] Transform _modelRoot;
 	[SerializeField] float _playerSpeed = 10.0f;
@@ -14,11 +18,13 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _dashDistance = 10.0f;
 	[SerializeField] float _dashDelay = 5f;
 	
-	int _playerIndex = -1;
-	
-	PlayerInput _playerInput;
-	Vector2 _moveInputValue;
-	
+	[Header("Data")]
+	[SerializeField] float _micStealDelay = 2f;
+
+	public int PlayerIndex => _playerIndex;
+	public int TeamIndex => _teamIndex;
+	public bool HasMic => _hasMic;
+
 	// movement
 	bool _canMove = true;
 	bool _canDash = true;
@@ -27,6 +33,16 @@ public class PlayerController : MonoBehaviour
 	Vector3 _dashStartPos;
 	Vector3 _dashEndPos;
 	
+	// input
+	PlayerInput _playerInput;
+	Vector2 _moveInputValue;
+	
+	// data
+	int _playerIndex = -1;
+	int _teamIndex = 0;
+	bool _hasMic = false;
+	float _lastMicTime;
+
 	public void Init(int playerIndex, PlayerInput playerInput, Vector3 spawnPosition)
 	{
 		string playerName = "Player_" + playerIndex;
@@ -36,6 +52,27 @@ public class PlayerController : MonoBehaviour
 		_playerInput.defaultActionMap = playerName;
 		ForceSetPosition(spawnPosition);
 		SetupModel();
+	}
+
+	public void SetTeam(int teamIndex)
+	{
+		_teamIndex = teamIndex;
+		//change color?
+	}
+	
+	public void GetMicrophone()
+	{
+		Debug.Assert(_hasMic, "Shouldn't have mic.");
+		_hasMic = true;
+		_lastMicTime = Time.time;
+		GotMic?.Invoke(_playerIndex);
+	}
+	
+	public void LostMicrophone()
+	{
+		Debug.Assert(_hasMic, "Should have mic.");
+		_hasMic = false;
+		LostMic?.Invoke(_playerIndex);
 	}
 
 	async Task SetupModel()
@@ -102,8 +139,41 @@ public class PlayerController : MonoBehaviour
 	
 	void OnControllerColliderHit(ControllerColliderHit other)
 	{
+		// force stop dashing
 		_isDashing = false;
-		//TODO: steal mic?
+		
+		if (!HasMic)
+		{
+			if (other.gameObject.CompareTag("Microphone"))
+			{
+				GetMicrophone();
+			}
+			else if (other.gameObject.CompareTag("Player"))
+			{
+				var otherPlayer = other.gameObject.GetComponent<PlayerController>();
+				TryStealMicrophone(otherPlayer);
+			}
+		}
+	}
+
+	bool IsStealProtected()
+	{
+		// give performance time
+		return _lastMicTime > 0 && ((Time.time - _lastMicTime) > _micStealDelay);
+	}
+
+	void TryStealMicrophone(PlayerController otherPlayer)
+	{
+		if (otherPlayer == null 
+			|| !otherPlayer.HasMic 
+			|| otherPlayer.TeamIndex == _teamIndex 
+			|| otherPlayer.IsStealProtected())
+		{
+			return;
+		}
+		
+		otherPlayer.LostMicrophone();
+		GetMicrophone();
 	}
 
 	#region Input Actions
