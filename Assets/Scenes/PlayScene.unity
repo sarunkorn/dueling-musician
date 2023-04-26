@@ -7551,6 +7551,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinBehavior
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Reference
+      value: 
+      objectReference: {fileID: -1258668326221975169, guid: ca4f740f8a9e9d345b3c962cb544ad49, type: 3}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Id
+      value: 8c37f8a8-650f-4b03-b1fa-106824cf2bc4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Name
+      value: Join
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Flags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_Interactions
+      value: Press
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_ExpectedControlType
+      value: Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 8bb3043d-eb31-4e28-aabd-30e98ae22b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186209, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Join
+      objectReference: {fileID: 0}
     - target: {fileID: 6364175034447186270, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: m_Name
       value: GameController
