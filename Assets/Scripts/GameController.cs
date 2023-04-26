@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 
 	void Update()
 	{
-		throw new NotImplementedException();
+		//TODO: point increase?
 	}
 
 	public bool CanStart()
