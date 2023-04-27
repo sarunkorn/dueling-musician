@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
 		if (otherPlayer == null 
 			|| !otherPlayer.HasMic 
 			|| otherPlayer.TeamIndex == _teamIndex 
-			|| otherPlayer.IsStealProtected())
+			|| !otherPlayer.IsStealProtected())
 		{
 			return;
 		}
