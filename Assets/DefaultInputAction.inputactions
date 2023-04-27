@@ -211,7 +211,7 @@
                 {
                     "name": "",
                     "id": "9d67a2de-5e31-46ce-811f-9291ee5a401b",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -225,7 +225,7 @@
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
