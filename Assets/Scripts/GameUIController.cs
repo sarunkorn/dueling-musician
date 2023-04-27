@@ -15,6 +15,7 @@ public class GameUIController : MonoBehaviour
 	public PlayerUI[] _PlayerUis;
 	
 	[SerializeField] GameObject _victoryPanel;
+	[SerializeField] GameObject _startPanel;
 
 	public void Init(GameController controller)
 	{
@@ -25,7 +26,9 @@ public class GameUIController : MonoBehaviour
 			ui.PerformanceBar.maxValue = controller.WinScore;
 		}
 
+		_startPanel.SetActive(true);
 		controller.PlayerJoined += SetPlayerData;
+		controller.GameStart += () => { _startPanel.SetActive(false); };
 		controller.GameEnd += ShowVictory;
 	}
 

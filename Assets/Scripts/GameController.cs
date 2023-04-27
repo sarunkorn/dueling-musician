@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
 	PlayerController _performingPlayer;
-	bool _isPlaying = true;
+	bool _isPlaying = false;
 	bool _gameEnded = false;
 
 	void Awake()
@@ -59,6 +60,7 @@ public class GameController : MonoBehaviour
 		controller.Init(playerInput, _spawnPoints[spawnPointIndex].position);
 		//TODO: team up?
 		controller.SetTeam(playerInput.playerIndex);
+		controller.AllowMove(false);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		controller.TryStart += OnPlayerTryStart;
@@ -70,9 +72,21 @@ public class GameController : MonoBehaviour
 
 	void OnPlayerTryStart()
 	{
-		if (!_isPlaying && _gameEnded)
+		if (!_isPlaying)
 		{
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			if (_gameEnded)
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+				return;
+			}
+
+			Debug.Log("Game Start");
+			_isPlaying = true;
+			foreach (var player in _playerList)
+			{
+				player.AllowMove(true);
+			}
+			GameStart?.Invoke();
 		}
 	}
 

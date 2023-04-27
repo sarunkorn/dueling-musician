@@ -54,12 +54,12 @@ public class PlayerController : MonoBehaviour
 
 	// movement
 	bool _canMove = true;
-	bool _canDash = true;
+	bool _allowMove = false;
 	bool _isFall = false;
 	bool _isDashing = false;
 	bool _isCharging = false;
 	bool _isBumping = false;
-	bool _tryCharging = false;
+	bool _holdCharging = false;
 	bool _isTaunting = false;
 	float _dashDistance;
 	float _dashFinalDuration;
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
 		//change color?
 	}
 
-	public void SetCanMove(bool canMove)
+	public void AllowMove(bool allowMove)
 	{
-		_canMove = canMove;
+		_allowMove = allowMove;
 	}
 	
 	public void GetMicrophone()
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
-		if (_tryCharging && !IsDashCooldown() && !_isCharging)
+		if (_holdCharging && !_isCharging && IsAllowDash())
 		{
 			StartCharge();
 		}
@@ -253,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
 	bool ValidatedMovement()
 	{
-		return _canMove && !_isFall && !_isBumping;
+		return _allowMove && _canMove && !_isFall && !_isBumping;
 	}
 
 	void MoveLogic()
@@ -347,10 +347,16 @@ public class PlayerController : MonoBehaviour
 		Taunted?.Invoke(false);
 	}
 
+	bool IsAllowDash()
+	{
+		bool isValidated = ValidatedMovement();
+		return isValidated && !_isDashing && !IsDashCooldown();
+	}
+
 	#region Input Actions
 	public void OnMove(InputAction.CallbackContext input)
 	{
-		if (!ValidatedMovement() && _isCharging)
+		if (!ValidatedMovement() || _isCharging)
 		{
 			return;
 		}
@@ -359,15 +365,15 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnDash(InputAction.CallbackContext input)
 	{
-		if (!ValidatedMovement() || _isDashing || IsDashCooldown())
+		if (!IsAllowDash())
 		{
 			if (input.phase == InputActionPhase.Started)
 			{
-				_tryCharging = true;
+				_holdCharging = true;
 			}
 			else if (input.phase == InputActionPhase.Canceled)
 			{
-				_tryCharging = false;
+				_holdCharging = false;
 			}
 			return;
 		}
@@ -379,7 +385,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else if (input.phase == InputActionPhase.Canceled && _isCharging)
 		{
-			_tryCharging = false;
+			_holdCharging = false;
 			StartDash();
 		}
 	}
@@ -391,11 +397,11 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnAction(InputAction.CallbackContext input)
 	{
-		if (!_isTaunting)
+		if (!_isTaunting && input.phase == InputActionPhase.Started)
 		{
 			Taunt();
 		}
-		else
+		else if(input.phase == InputActionPhase.Canceled)
 		{
 			StopTaunt();
 		}
