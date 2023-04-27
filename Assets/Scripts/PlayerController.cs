@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
 	bool _isDashing = false;
 	bool _isCharging = false;
 	bool _isBumping = false;
+	bool _tryCharging = false;
 	float _dashDistance;
 	float _dashFinalDuration;
 	float _lastDashChargeStartTime;
@@ -120,7 +121,16 @@ public class PlayerController : MonoBehaviour
 		_isBumping = true;
 		_lastBumpTime = Time.time;
 		_bumpDirection = other.transform.forward;
+		
+		_isDashing = false;
+		CancelCharge();
 		Bumped?.Invoke();
+	}
+
+	void CancelCharge()
+	{
+		_isCharging = false;
+		_arrowRoot.SetActive(false);
 	}
 
 	async Task SetupModel()
@@ -306,6 +316,14 @@ public class PlayerController : MonoBehaviour
 	{
 		if (!ValidatedMovement() || _isDashing || IsDashCooldown())
 		{
+			if (input.phase == InputActionPhase.Started)
+			{
+				_tryCharging = true;
+			}
+			else if (input.phase == InputActionPhase.Canceled)
+			{
+				_tryCharging = false;
+			}
 			return;
 		}
 
@@ -313,12 +331,12 @@ public class PlayerController : MonoBehaviour
 		if (input.phase == InputActionPhase.Started && !_isCharging)
 		{
 			_isCharging = true;
-			_moveInputValue = Vector2.zero;
 			_lastDashChargeStartTime = Time.time;
 			_arrowRoot.SetActive(true);
 		}
 		else if (input.phase == InputActionPhase.Canceled && _isCharging)
 		{
+			_tryCharging = false;
 			StartDash();
 		}
 	}
