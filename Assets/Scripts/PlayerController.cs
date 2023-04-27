@@ -239,9 +239,6 @@ public class PlayerController : MonoBehaviour
 				TryStealMicrophone(otherPlayer);
 			}
 		}
-		
-		// force stop dashing
-		_isDashing = false;
 	}
 
 	bool IsStealProtected()
