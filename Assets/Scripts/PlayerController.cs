@@ -51,10 +51,13 @@ public class PlayerController : MonoBehaviour
 	public bool HasMic => _hasMic;
 	public float Score => _score;
 	public bool IsFell => _isFall;
+	public bool AllowInput => _allowInput;
+	public float JoinedTime => _joinedTime;
 
 	// movement
 	bool _canMove = true;
 	bool _allowMove = false;
+	bool _allowInput = false;
 	bool _isFall = false;
 	bool _isDashing = false;
 	bool _isCharging = false;
@@ -66,6 +69,7 @@ public class PlayerController : MonoBehaviour
 	float _lastDashChargeStartTime;
 	float _lastDashTime;
 	float _lastBumpTime;
+	float _joinedTime;
 	Vector3 _bumpDirection;
 	Vector3 _spawnPos;
 	
@@ -89,6 +93,7 @@ public class PlayerController : MonoBehaviour
 		string playerName = "Player_" + PlayerIndex;
 		gameObject.name = playerName;
 		_playerInput.defaultActionMap = playerName;
+		_joinedTime = Time.time;
 		_micParticle.SetActive(false);
 		_score = 0;
 
@@ -106,6 +111,11 @@ public class PlayerController : MonoBehaviour
 	public void AllowMove(bool allowMove)
 	{
 		_allowMove = allowMove;
+	}
+	
+	public void SetAllowInput(bool allowInput)
+	{
+		_allowInput = allowInput;
 	}
 	
 	public void GetMicrophone()
@@ -392,6 +402,9 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnStart(InputAction.CallbackContext input)
 	{
+		if (!_allowInput)
+			return;
+		
 		TryStart?.Invoke();
 	}
 	
@@ -401,7 +414,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Taunt();
 		}
-		else if(input.phase == InputActionPhase.Canceled)
+		else if(_isTaunting && input.phase == InputActionPhase.Canceled)
 		{
 			StopTaunt();
 		}

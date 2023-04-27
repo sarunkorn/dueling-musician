@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject[] _lights;
 
 	[SerializeField] float _winScore = 20;
+	[SerializeField] float _joinerStartDelay = 0.5f;
 	
 	[SerializeField] GameObject _micRef;
 
@@ -45,6 +46,17 @@ public class GameController : MonoBehaviour
 
 	void Update()
 	{
+		if (!_isPlaying && !_gameEnded)
+		{
+			foreach (var player in _playerList)
+			{
+				if(player.AllowInput)
+					continue;
+
+				bool isAllowInput = Time.time - player.JoinedTime > _joinerStartDelay;
+				player.SetAllowInput(isAllowInput);
+			}
+		}
 		CheckWinner();
 	}
 
@@ -61,6 +73,7 @@ public class GameController : MonoBehaviour
 		//TODO: team up?
 		controller.SetTeam(playerInput.playerIndex);
 		controller.AllowMove(false);
+		controller.SetAllowInput(false);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		controller.TryStart += OnPlayerTryStart;
@@ -129,10 +142,10 @@ public class GameController : MonoBehaviour
 		InitPlayer(playerInput);
 	}
 
-	public void PlayerLeftEvent(PlayerInput playerInput)
+	public void PlayerLeftEvent(PlayerInput playerInput) 
 	{
 		int index = _playerList.FindIndex(o => o.PlayerIndex == playerInput.playerIndex);
-		Destroy(_playerList[index].gameObject);
+		Destroy(_playerList[index].gameObject); 
 		_playerList.RemoveAt(index);
 		Debug.Log("Player left");
 	}
