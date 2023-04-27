@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
 		var loader = new AddressableResourceLoader();
 		GameObject model = await loader.Load<GameObject>(PlayerModelPrefix + PlayerIndex);
 		var modelObj = Instantiate(model, _modelRoot, false);
-		_animator = modelObj.GetComponent<Animator>();
+		_animator = modelObj.GetComponentInChildren<Animator>();
 	}
 
 	void Update()
