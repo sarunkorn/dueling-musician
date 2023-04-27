@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,14 +20,25 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] Transform _modelRoot;
 	[SerializeField] float _playerSpeed = 10.0f;
 	[SerializeField] float _dashDuration = 1f;
-	[SerializeField] float _dashDistance = 10.0f;
+	[SerializeField] float _dashDurationMax = 2f;
+	[SerializeField] float _dashMinDistance = 10.0f;
+	[SerializeField] float _dashMaxDistance = 10.0f;
+	[SerializeField] float _dashChargeDuration = 3.0f;
 	[SerializeField] float _dashDelay = 5f;
 	[SerializeField] float _bumpDistance = 2f;
 	[SerializeField] float _bumpDuration = 0.5f;
+	
+	[Header("Arrow")]
+	[SerializeField] GameObject _arrowRoot;
+	[SerializeField] MeshRenderer _arrowMesh;
+	[SerializeField] Material[] _arrowMatRef;
+	[SerializeField] float _arrowStartZ = 0.25f;
+	[SerializeField] float _arrowEndZ = 2.5f;
+
 
 	[Header("Reference")] 
 	[SerializeField] GameObject _micParticle;
-	
+
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
 	[SerializeField] float _scoreIncreaseRate = 0.5f;
@@ -43,7 +55,11 @@ public class PlayerController : MonoBehaviour
 	bool _canDash = true;
 	bool _isFall = false;
 	bool _isDashing = false;
+	bool _isCharging = false;
 	bool _isBumping = false;
+	float _dashDistance;
+	float _dashFinalDuration;
+	float _lastDashChargeStartTime;
 	float _lastDashTime;
 	float _lastBumpTime;
 	Vector3 _bumpDirection;
@@ -70,7 +86,8 @@ public class PlayerController : MonoBehaviour
 		_playerInput.defaultActionMap = playerName;
 		_micParticle.SetActive(false);
 		_score = 0;
-		
+
+		_arrowMesh.material = _arrowMatRef[PlayerIndex];
 		ForceSetPosition(spawnPosition);
 		SetupModel();
 	}
@@ -120,20 +137,31 @@ public class PlayerController : MonoBehaviour
 			Debug.Log($"Player {PlayerIndex} Respawn in... " + (Time.time - _respawnTime));
 			Respawn();
 		}
-		
-		// moving
-		if (_isDashing)
+
+		if (_isCharging)
 		{
-			float progress = (Time.time - _lastDashTime) / _dashDuration;
+			float progress = (Time.time - _lastDashChargeStartTime) / _dashChargeDuration;
+			_dashDistance = Mathf.Lerp(_dashMinDistance, _dashMaxDistance, progress);
+			_dashFinalDuration = Mathf.Lerp(_dashDuration, _dashDurationMax, progress);
+			Debug.Log(_dashDistance);
+			float arrowSize = Mathf.Lerp(_arrowStartZ, _arrowEndZ, progress);
+			Vector3 scale = _arrowRoot.transform.localScale;
+			scale.z = arrowSize;
+			_arrowRoot.transform.localScale = scale;
+			if (progress >= 1f)
+			{
+				StartDash();
+			}
+		}
+		else if (_isDashing)
+		{
+			float progress = (Time.time - _lastDashTime) / _dashFinalDuration;
 			_charController.Move(transform.forward * _dashDistance * Time.deltaTime);
-			// transform.position = Vector3.Lerp(_dashStartPos, _dashEndPos, progress);
 			if (progress >= 1f)
 			{
 				_isDashing = false;
 			}
-		}
-
-		if (_isBumping)
+		}else if(_isBumping)
 		{
 			float progress = (Time.time - _lastBumpTime) / _bumpDuration;
 			_charController.Move(_bumpDirection * _bumpDistance * Time.deltaTime);
@@ -185,6 +213,7 @@ public class PlayerController : MonoBehaviour
 		_canMove = true;
 		_isBumping = false;
 		_isDashing = false;
+		_isCharging = false;
 		_isFall = false;
 	}
 
@@ -214,8 +243,10 @@ public class PlayerController : MonoBehaviour
 	void StartDash()
 	{
 		Debug.Log("Dash");
+		_isCharging = false;
 		_isDashing = true;
 		_lastDashTime = Time.time;
+		_arrowRoot.SetActive(false);
 		Dash?.Invoke();
 	}
 
@@ -264,7 +295,7 @@ public class PlayerController : MonoBehaviour
 	#region Input Actions
 	public void OnMove(InputAction.CallbackContext input)
 	{
-		if (!ValidatedMovement())
+		if (!ValidatedMovement() && _isCharging)
 		{
 			return;
 		}
@@ -277,8 +308,19 @@ public class PlayerController : MonoBehaviour
 		{
 			return;
 		}
-		
-		StartDash();
+
+		Debug.Log("input phase : " + input.phase);
+		if (input.phase == InputActionPhase.Started && !_isCharging)
+		{
+			_isCharging = true;
+			_moveInputValue = Vector2.zero;
+			_lastDashChargeStartTime = Time.time;
+			_arrowRoot.SetActive(true);
+		}
+		else if (input.phase == InputActionPhase.Canceled && _isCharging)
+		{
+			StartDash();
+		}
 	}
 	#endregion
 
