@@ -5281,6 +5281,7 @@ MonoBehaviour:
   _micParticle: {fileID: 565872699618614195}
   _micStealDelay: 0.3
   _scoreIncreaseRate: 0.5
+  _tauntScoreIncreaseRate: 2
   _respawnCooldown: 3
 --- !u!143 &8774872537127859477
 CharacterController:
@@ -5358,9 +5359,37 @@ MonoBehaviour:
     m_ActionId: 75a356f0-67c3-4379-b705-ef384bb09024
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8774872537127859475}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnStart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: da2c374d-f781-477a-9ec7-6a7911b59fe5
     m_ActionName: Player/Start[/Keyboard/enter,/DualSenseGamepadHID/start]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8774872537127859475}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 76e46544-4c1c-415a-b3f8-04183d69714e
+    m_ActionName: Player/Action[/Keyboard/leftShift,/XInputControllerWindows/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

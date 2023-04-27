@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
 	List<PlayerController> _playerList = new List<PlayerController>();
 	PlayerController _performingPlayer;
 	bool _isPlaying = true;
+	bool _gameEnded = false;
 
 	void Awake()
 	{
@@ -59,10 +61,19 @@ public class GameController : MonoBehaviour
 		controller.SetTeam(playerInput.playerIndex);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
+		controller.TryStart += OnPlayerTryStart;
 		_playerList.Add(controller);
 		
 		PlayerJoined?.Invoke(controller);
 		Debug.Log("Created player " + controller.PlayerIndex);
+	}
+
+	void OnPlayerTryStart()
+	{
+		if (!_isPlaying && _gameEnded)
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
 	}
 
 	void OnPlayerGotMic(PlayerController player)
@@ -93,6 +104,7 @@ public class GameController : MonoBehaviour
 		if (_isPlaying && _performingPlayer != null && _performingPlayer.Score > _winScore)
 		{
 			_isPlaying = false;
+			_gameEnded = true;
 			GameEnd?.Invoke(_performingPlayer.PlayerIndex);
 		}
 	}

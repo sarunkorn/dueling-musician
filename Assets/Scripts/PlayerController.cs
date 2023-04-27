@@ -1,11 +1,12 @@
 using System;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	public event Action TryStart;
+	public event Action<bool> Taunted;
 	public event Action Dash;
 	public event Action Bumped;
 	public event Action<PlayerController> GotMic;
@@ -38,10 +39,11 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Reference")] 
 	[SerializeField] GameObject _micParticle;
-
+	
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
 	[SerializeField] float _scoreIncreaseRate = 0.5f;
+	[SerializeField] float _tauntScoreIncreaseRate = 2f;
 	[SerializeField] float _respawnCooldown = 3f;
 
 	public int PlayerIndex => _playerInput.playerIndex;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
 	bool _isCharging = false;
 	bool _isBumping = false;
 	bool _tryCharging = false;
+	bool _isTaunting = false;
 	float _dashDistance;
 	float _dashFinalDuration;
 	float _lastDashChargeStartTime;
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour
 	// input
 	PlayerInput _playerInput;
 	Vector2 _moveInputValue;
+	Animator _animator;
 	
 	// data
 	int _teamIndex = 0;
@@ -129,6 +133,7 @@ public class PlayerController : MonoBehaviour
 		
 		_isDashing = false;
 		CancelCharge();
+		StopTaunt();
 		Bumped?.Invoke();
 	}
 
@@ -150,6 +155,7 @@ public class PlayerController : MonoBehaviour
 		var loader = new AddressableResourceLoader();
 		GameObject model = await loader.Load<GameObject>(PlayerModelPrefix + PlayerIndex);
 		Instantiate(model, _modelRoot, false);
+		_animator = model.GetComponent<Animator>();
 	}
 
 	void Update()
@@ -209,7 +215,8 @@ public class PlayerController : MonoBehaviour
 		// point
 		if (HasMic)
 		{
-			_score += _scoreIncreaseRate * Time.deltaTime;
+			float increaseRate = _isTaunting ? _tauntScoreIncreaseRate : _scoreIncreaseRate;
+			_score += increaseRate * Time.deltaTime;
 			ScoreUpdated?.Invoke(_score);
 		}
 	}
@@ -323,6 +330,23 @@ public class PlayerController : MonoBehaviour
 		GetMicrophone();
 	}
 
+	void Taunt()
+	{
+		_isTaunting = true;
+		_moveInputValue = Vector2.zero;
+		_canMove = false;
+		_animator.SetBool("isTaunting", true);
+		Taunted?.Invoke(true);
+	}
+
+	void StopTaunt()
+	{
+		_isTaunting = false;
+		_canMove = true;
+		_animator.SetBool("isTaunting", false);
+		Taunted?.Invoke(false);
+	}
+
 	#region Input Actions
 	public void OnMove(InputAction.CallbackContext input)
 	{
@@ -357,6 +381,23 @@ public class PlayerController : MonoBehaviour
 		{
 			_tryCharging = false;
 			StartDash();
+		}
+	}
+	
+	public void OnStart(InputAction.CallbackContext input)
+	{
+		TryStart?.Invoke();
+	}
+	
+	public void OnAction(InputAction.CallbackContext input)
+	{
+		if (!_isTaunting)
+		{
+			Taunt();
+		}
+		else
+		{
+			StopTaunt();
 		}
 	}
 	#endregion
