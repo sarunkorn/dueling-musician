@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Blue
-  m_Shader: {fileID: 4800000, guid: ab586d73f5c7a9d4f9e37d5f68e8ea52, type: 3}
-  m_ShaderKeywords: _USEVERTEXCOLOR_ON
+  m_Name: RedCone
+  m_Shader: {fileID: 4800000, guid: 608324eddcd17ca40aa8a1bfca2495fa, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,7 +19,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Texture:
+    - _TextureSample0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -28,8 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _UseVertexColor: 1
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 0.16666651, g: 0, b: 1, a: 1}
+    - _Tint: {r: 1, g: 0, b: 0, a: 0.6039216}
   m_BuildTextureStacks: []
