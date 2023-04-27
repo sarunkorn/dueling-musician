@@ -30,6 +30,8 @@ public class GameController : MonoBehaviour
 	
 	[SerializeField] GameObject _micRef;
 	[SerializeField] GameObject _obstaclesRef;
+	[SerializeField] GameObject _cameraTargetRef;
+	[SerializeField] Animator _cameraAnimator;
 
 	[SerializeField] GameUIController _uiController;
 	[SerializeField] Animator _audienceAnimator;
@@ -136,6 +138,9 @@ public class GameController : MonoBehaviour
 	void OnPlayerGotMic(PlayerController player)
 	{
 		Debug.Log($"Player {player.PlayerIndex} got mic!");
+		_cameraAnimator.SetTrigger("CutIn");
+		_cameraTargetRef.transform.SetParent(player.gameObject.transform);
+		_cameraTargetRef.transform.localPosition = new Vector3(0f,0f,0f);
 		_performingPlayer = player;
 		_lights[player.PlayerIndex].SetActive(true);
 		_micRef.SetActive(false);
@@ -157,6 +162,7 @@ public class GameController : MonoBehaviour
 			_micRef.SetActive(true);
 			PlayBGM(GameSoundKeys.DefaultBGM);
 			SetAudienceCheerMic(false);
+			_cameraAnimator.SetTrigger("CutOut");
 		}
 		_lights[player.PlayerIndex].SetActive(false);
 	}

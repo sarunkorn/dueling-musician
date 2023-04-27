@@ -33,6 +33,10 @@ MonoBehaviour:
     m_Address: PlayerPrefab_0
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: a0d927f8ad5c8ab4081bb130bedf619b
+    m_Address: RockBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b85ef48eca1e04c40be00eaa79bf0e4b, type: 2}
   m_SchemaSet:
