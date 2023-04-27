@@ -14973,10 +14973,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7655281661868845816, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 7655281662449382481, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14992,10 +14988,6 @@ PrefabInstance:
     - target: {fileID: 7655281662937056994, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7655281662937056995, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
-      propertyPath: m_FillAmount
-      value: 0.396
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
