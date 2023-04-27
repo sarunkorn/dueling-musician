@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 	public event Action<PlayerController> PlayerJoined;
 	
 	[SerializeField] Transform[] _spawnPoints;
+	[SerializeField] GameObject[] _lights;
 
 	[SerializeField] float _winScore = 20;
 
@@ -56,6 +57,7 @@ public class GameController : MonoBehaviour
 	{
 		Debug.Log($"Player {player.PlayerIndex} got mic!");
 		_performingPlayer = player;
+		_lights[player.PlayerIndex].SetActive(true);
 	}
 
 	void OnPlayerLostMic(PlayerController player)
@@ -65,6 +67,7 @@ public class GameController : MonoBehaviour
 		{
 			_performingPlayer = null;
 		}
+		_lights[player.PlayerIndex].SetActive(false);
 	}
 
 	void CheckWinner()
