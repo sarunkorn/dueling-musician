@@ -9,9 +9,12 @@ public class GameUIController : MonoBehaviour
 	{
 		public GameObject Root;
 		public Slider PerformanceBar;
+		public GameObject VictoryModel;
 	}
 
 	public PlayerUI[] _PlayerUis;
+	
+	[SerializeField] GameObject _victoryPanel;
 
 	public void Init(GameController controller)
 	{
@@ -23,6 +26,13 @@ public class GameUIController : MonoBehaviour
 		}
 
 		controller.PlayerJoined += SetPlayerData;
+		controller.GameEnd += ShowVictory;
+	}
+
+	void ShowVictory(int playerIndex)
+	{
+		_victoryPanel.SetActive(true);
+		_PlayerUis[playerIndex].VictoryModel.SetActive(true);
 	}
 
 	void SetPlayerData(PlayerController controller)

@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
+	public static GameController Instance;
 	public event Action GameStart;
-	public event Action GameEnd;
+	public event Action<int> GameEnd;
 	public event Action<PlayerController> PlayerJoined;
 	
 	[SerializeField] Transform[] _spawnPoints;
@@ -18,15 +18,25 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject _micRef;
 
 	[SerializeField] GameUIController _uiController;
-
+	
 	public int NumberOfPlayer => _playerList.Count;
 	public float WinScore => _winScore;
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
 	PlayerController _performingPlayer;
+	bool _isPlaying = true;
 
 	void Awake()
 	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else if(Instance != this)
+		{
+			Destroy(this);
+		}
+		
 		_uiController.Init(this);
 	}
 
@@ -80,9 +90,10 @@ public class GameController : MonoBehaviour
 
 	void CheckWinner()
 	{
-		if (_performingPlayer != null && _performingPlayer.Score > _winScore)
+		if (_isPlaying && _performingPlayer != null && _performingPlayer.Score > _winScore)
 		{
-			GameEnd?.Invoke();
+			_isPlaying = false;
+			GameEnd?.Invoke(_performingPlayer.PlayerIndex);
 		}
 	}
 

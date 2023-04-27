@@ -11245,12 +11245,17 @@ MonoBehaviour:
   _PlayerUis:
   - Root: {fileID: 7655281662962271953}
     PerformanceBar: {fileID: 7655281662412327556}
+    VictoryModel: {fileID: 8467022927659345215}
   - Root: {fileID: 2689502124727117551}
     PerformanceBar: {fileID: 735113345317523729}
+    VictoryModel: {fileID: 2449051684742631962}
   - Root: {fileID: 3613971750390572492}
     PerformanceBar: {fileID: 6542074214499351304}
+    VictoryModel: {fileID: 1121095480391854484}
   - Root: {fileID: 5490164230992505245}
     PerformanceBar: {fileID: 7963897575430722846}
+    VictoryModel: {fileID: 4317873449387114919}
+  _victoryPanel: {fileID: 1677347273928859755}
 --- !u!1 &7655281662937056993
 GameObject:
   m_ObjectHideFlags: 0

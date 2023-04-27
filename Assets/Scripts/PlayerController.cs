@@ -98,6 +98,11 @@ public class PlayerController : MonoBehaviour
 		_teamIndex = teamIndex;
 		//change color?
 	}
+
+	public void SetCanMove(bool canMove)
+	{
+		_canMove = canMove;
+	}
 	
 	public void GetMicrophone()
 	{
