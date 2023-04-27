@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
 		}
 		
 		_uiController.Init(this);
-		
+		PlayBGM(GameSoundKeys.DefaultBGM);
 	}
 
 	void Update()

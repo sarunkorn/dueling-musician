@@ -33,6 +33,30 @@ MonoBehaviour:
     m_Address: PlayerPrefab_0
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 52fd7ed5bcd7974458b38d96392ac61e
+    m_Address: Victory
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f3a2562e5a2dcd8479bf240bd6b2d330
+    m_Address: RockBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 33670af5ecf3baf4c9ab43598c7fc9f2
+    m_Address: MaestroBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f22b8cb5a2bb4764fb9007d91bbbbcfa
+    m_Address: DefaultBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6f922fe12a7d131449f051ac0248ef7d
+    m_Address: JazzBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4913a41e4d0254845a2f1501435f73ae
+    m_Address: DJBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b85ef48eca1e04c40be00eaa79bf0e4b, type: 2}
   m_SchemaSet:

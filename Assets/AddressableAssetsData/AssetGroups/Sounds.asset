@@ -41,30 +41,6 @@ MonoBehaviour:
     m_Address: Taunt
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 0c3b681a00833d844b17fdf4d18f2702
-    m_Address: Victory
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 836bdb81cb07fdd4abe4909d193e1540
-    m_Address: DefaultBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: e12a2c7a04f8f384cbac5295ce5c8569
-    m_Address: RockBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 3d9f8dd4dcc99704f82a80ef4de6079e
-    m_Address: DJBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 6cb9af91b418fca47870238d213528e9
-    m_Address: JazzBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 01c680365d703714c87bf7fbef129e5a
-    m_Address: MaestroBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b85ef48eca1e04c40be00eaa79bf0e4b, type: 2}
   m_SchemaSet:
