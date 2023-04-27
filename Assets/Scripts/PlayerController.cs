@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using SmileProject.Generic.Audio;
+using SmileProject.SpaceInvader.Sounds;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
 	float _lastMicTime;
 	float _score = 0;
 	float _respawnTime = 0;
+	int _tauntSoundIndex;
 
 	public void Init(PlayerInput playerInput, Vector3 spawnPosition)
 	{
@@ -292,6 +295,7 @@ public class PlayerController : MonoBehaviour
 		_lastDashTime = Time.time;
 		_arrowRoot.SetActive(false);
 		Dash?.Invoke();
+		AudioManager.Instance.PlaySound(GameSoundKeys.Dash);
 	}
 
 	bool IsDashCooldown()
@@ -339,14 +343,15 @@ public class PlayerController : MonoBehaviour
 		otherPlayer.LostMicrophone();
 		GetMicrophone();
 	}
-
-	void Taunt()
+	
+	async void Taunt()
 	{
 		_isTaunting = true;
 		_moveInputValue = Vector2.zero;
 		_canMove = false;
 		_animator.SetBool("Taunt", true);
 		Taunted?.Invoke(true);
+		_tauntSoundIndex = await AudioManager.Instance.PlaySound(GameSoundKeys.Taunt, true);
 	}
 
 	void StopTaunt()
@@ -355,6 +360,12 @@ public class PlayerController : MonoBehaviour
 		_canMove = true;
 		_animator.SetBool("Taunt", false);
 		Taunted?.Invoke(false);
+
+		if (_tauntSoundIndex > -1)
+		{
+			AudioManager.Instance.StopSound(_tauntSoundIndex);
+			_tauntSoundIndex = -1;
+		}
 	}
 
 	bool IsAllowDash()

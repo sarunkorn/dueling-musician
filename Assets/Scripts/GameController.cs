@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using SmileProject.Generic.Audio;
+using SmileProject.SpaceInvader.Sounds;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,15 @@ public class GameController : MonoBehaviour
 	public event Action GameStart;
 	public event Action<int> GameEnd;
 	public event Action<PlayerController> PlayerJoined;
+
+	readonly List<GameSoundKeys> PlayerBGM = new List<GameSoundKeys>()
+	{
+		GameSoundKeys.RockBGM,
+		GameSoundKeys.DJBGM,
+		GameSoundKeys.JazzBGM,
+		GameSoundKeys.MaestroBGM,
+
+	};
 	
 	[SerializeField] Transform[] _spawnPoints;
 	[SerializeField] GameObject[] _lights;
@@ -21,6 +32,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject _micRef;
 
 	[SerializeField] GameUIController _uiController;
+	[SerializeField] AudioManager _audioManager;
 	
 	public int NumberOfPlayer => _playerList.Count;
 	public float WinScore => _winScore;
@@ -29,6 +41,7 @@ public class GameController : MonoBehaviour
 	PlayerController _performingPlayer;
 	bool _isPlaying = false;
 	bool _gameEnded = false;
+	int _bgmPlayIndex = -1;
 
 	void Awake()
 	{
@@ -42,6 +55,7 @@ public class GameController : MonoBehaviour
 		}
 		
 		_uiController.Init(this);
+		
 	}
 
 	void Update()
@@ -60,9 +74,18 @@ public class GameController : MonoBehaviour
 		CheckWinner();
 	}
 
+	async void PlayBGM(GameSoundKeys soundKey)
+	{
+		if (_bgmPlayIndex > -1)
+		{
+			AudioManager.Instance.StopSound(_bgmPlayIndex);
+		}
+		_bgmPlayIndex = await AudioManager.Instance.PlaySound(soundKey, true);
+	}
+
 	public bool CanStart()
 	{
-		return NumberOfPlayer == 2 || NumberOfPlayer == 4;
+		return NumberOfPlayer > 1;
 	}
 	
 	void InitPlayer(PlayerInput playerInput)
@@ -93,13 +116,17 @@ public class GameController : MonoBehaviour
 				return;
 			}
 
-			Debug.Log("Game Start");
-			_isPlaying = true;
-			foreach (var player in _playerList)
+			if (CanStart())
 			{
-				player.AllowMove(true);
+				Debug.Log("Game Start");
+				_isPlaying = true;
+				foreach (var player in _playerList)
+				{
+					player.AllowMove(true);
+				}
+				GameStart?.Invoke();
+				AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
 			}
-			GameStart?.Invoke();
 		}
 	}
 
@@ -109,6 +136,9 @@ public class GameController : MonoBehaviour
 		_performingPlayer = player;
 		_lights[player.PlayerIndex].SetActive(true);
 		_micRef.SetActive(false);
+		AudioManager.Instance.PlaySound(GameSoundKeys.MicGrab);
+		PlayBGM(PlayerBGM[player.PlayerIndex]);
+
 	}
 
 	void OnPlayerLostMic(PlayerController player)
@@ -122,6 +152,7 @@ public class GameController : MonoBehaviour
 		if (player.IsFell && _performingPlayer == null)
 		{
 			_micRef.SetActive(true);
+			PlayBGM(GameSoundKeys.DefaultBGM);
 		}
 		_lights[player.PlayerIndex].SetActive(false);
 	}
@@ -133,6 +164,7 @@ public class GameController : MonoBehaviour
 			_isPlaying = false;
 			_gameEnded = true;
 			GameEnd?.Invoke(_performingPlayer.PlayerIndex);
+			AudioManager.Instance.PlaySound(GameSoundKeys.Victory);
 		}
 	}
 
@@ -140,6 +172,7 @@ public class GameController : MonoBehaviour
 	{
 		Debug.Log("Player joined");
 		InitPlayer(playerInput);
+		AudioManager.Instance.PlaySound(GameSoundKeys.PlayerJoined);
 	}
 
 	public void PlayerLeftEvent(PlayerInput playerInput) 

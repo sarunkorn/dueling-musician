@@ -5272,6 +5272,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &656305398419072393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584604416404992158}
+  m_Layer: 0
+  m_Name: Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &584604416404992158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656305398419072393}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8276022375445169238}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &821089085018740994
 GameObject:
   m_ObjectHideFlags: 0
@@ -9937,6 +9967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7655281662438835808}
+  - {fileID: 8276022375445169238}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9966,6 +9997,7 @@ MonoBehaviour:
   _joinerStartDelay: 0.5
   _micRef: {fileID: 0}
   _uiController: {fileID: 7655281662438835809}
+  _audioManager: {fileID: 0}
 --- !u!114 &6364175034447186209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10934,6 +10966,52 @@ Transform:
   m_Father: {fileID: 7594558873249358611}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7416067846373987225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8276022375445169238}
+  - component: {fileID: 3359637448867284900}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8276022375445169238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416067846373987225}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 584604416404992158}
+  m_Father: {fileID: 6364175034447186208}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3359637448867284900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416067846373987225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6630b0d6884cfc542bc900df5bc680c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSourcesContainer: {fileID: 584604416404992158}
+  _audioSources: []
 --- !u!1 &7513832382758552015
 GameObject:
   m_ObjectHideFlags: 0
@@ -13006,14 +13084,14 @@ PrefabInstance:
     - {fileID: 1024050395578748770, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
     - {fileID: 4825624351449056981, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
---- !u!1 &4418383507668639793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4594787330200778099, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
-  m_PrefabInstance: {fileID: 185411605903545666}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3898587618706258571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3785317367327059913, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
+  m_PrefabInstance: {fileID: 185411605903545666}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4418383507668639793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4594787330200778099, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
   m_PrefabInstance: {fileID: 185411605903545666}
   m_PrefabAsset: {fileID: 0}
 --- !u!111 &263809483668498554

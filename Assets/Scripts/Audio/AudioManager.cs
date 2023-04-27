@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections.Generic;
+using SmileProject.SpaceInvader.Sounds;
 using UnityEngine.Audio;
 
 namespace SmileProject.Generic.Audio
@@ -10,6 +11,7 @@ namespace SmileProject.Generic.Audio
     /// </summary>
     public class AudioManager : MonoBehaviour
     {
+        public static AudioManager Instance;
         [SerializeField] Transform _audioSourcesContainer;
 
         [SerializeField] List<AudioSource> _audioSources;
@@ -21,10 +23,19 @@ namespace SmileProject.Generic.Audio
 
         void Awake()
         {
-            DontDestroyOnLoad(this);
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
+            
             _audioSources = new List<AudioSource>(_audioSourcesContainer.GetComponentsInChildren<AudioSource>());
             _playingSource = new Dictionary<int, AudioSource>();
             _mixerMap = new Dictionary<string, AudioMixerGroup>();
+            Initialize();
         }
 
         /// <summary>
@@ -33,10 +44,11 @@ namespace SmileProject.Generic.Audio
         /// <param name="resourceLoader">resource loader</param>
         /// <param name="mainMixerKey">mixer asset key</param>
         /// <returns></returns>
-        public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey)
+        public async Task Initialize()
         {
-            _resourceLoader = resourceLoader;
-            await InitMixer(mainMixerKey);
+            _resourceLoader = new AddressableResourceLoader();
+            await _resourceLoader.InitializeAsync();
+            await InitMixer(MixerGroup.MainMixerKey);
         }
 
         /// <summary>
@@ -64,6 +76,11 @@ namespace SmileProject.Generic.Audio
         public async Task<int> PlaySound(SoundKeys soundKey, bool loop = false)
         {
             AudioClip clip = await _resourceLoader.Load<AudioClip>(soundKey.GetAssetKey());
+            if (clip == null)
+            {
+                Debug.Log("Failed to play : "+soundKey);
+                return -1;
+            }
             AudioSource source = GetAvaliableAudioSource();
             string mixerKey = soundKey.GetMixerKey();
             if (mixerKey != null && _mixerMap.TryGetValue(mixerKey, out AudioMixerGroup mixerGroup))
