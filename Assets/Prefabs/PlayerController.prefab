@@ -5261,13 +5261,13 @@ MonoBehaviour:
   _charController: {fileID: 8774872537127859477}
   _modelRoot: {fileID: 8968171330571444882}
   _playerSpeed: 5
-  _dashDuration: 0.2
-  _dashDurationMax: 0.5
+  _dashDuration: 0.15
+  _dashDurationMax: 0.2
   _dashMinDistance: 10
   _dashMaxDistance: 25
-  _dashChargeDuration: 1.5
-  _dashDelay: 1
-  _bumpDistance: 10
+  _dashChargeDuration: 2.5
+  _dashDelay: 0.7
+  _bumpDistance: 20
   _bumpDuration: 0.2
   _arrowRoot: {fileID: 3122223128289090253}
   _arrowMesh: {fileID: 647480590066167734}
@@ -5277,7 +5277,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 8916ae502b4439c4184f1711e7c9c9a8, type: 2}
   - {fileID: 2100000, guid: bab9b5364e1b2c74294239237d81378b, type: 2}
   _arrowStartZ: 0.25
-  _arrowEndZ: 2.5
+  _arrowEndZ: 1.8
   _micParticle: {fileID: 565872699618614195}
   _micStealDelay: 0.3
   _scoreIncreaseRate: 0.5
