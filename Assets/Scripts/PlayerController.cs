@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
 	void ForceSetPosition(Vector3 pos)
 	{
 		_charController.enabled = false;
-		transform.SetPositionAndRotation(pos, Quaternion.identity);
+		transform.SetPositionAndRotation(pos, Quaternion.Euler(0,180,0));
 		_charController.enabled = true;
 	}
 
@@ -366,7 +366,7 @@ public class PlayerController : MonoBehaviour
 	#region Input Actions
 	public void OnMove(InputAction.CallbackContext input)
 	{
-		if (!ValidatedMovement() || _isCharging)
+		if (!ValidatedMovement())
 		{
 			return;
 		}
