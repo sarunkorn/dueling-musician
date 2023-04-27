@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	public event Action Dash;
+	public event Action Bumped;
 	public event Action<PlayerController> GotMic;
 	public event Action<PlayerController> LostMic;
 	public event Action<float> ScoreUpdated;
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _dashDuration = 1f;
 	[SerializeField] float _dashDistance = 10.0f;
 	[SerializeField] float _dashDelay = 5f;
+	[SerializeField] float _bumpDistance = 2f;
+	[SerializeField] float _bumpDuration = 0.5f;
 
 	[Header("Reference")] 
 	[SerializeField] GameObject _micParticle;
@@ -37,9 +40,10 @@ public class PlayerController : MonoBehaviour
 	bool _canMove = true;
 	bool _canDash = true;
 	bool _isDashing = false;
+	bool _isBumping = false;
 	float _lastDashTime;
-	Vector3 _dashStartPos;
-	Vector3 _dashEndPos;
+	float _lastBumpTime;
+	Vector3 _bumpDirection;
 	
 	// input
 	PlayerInput _playerInput;
@@ -88,6 +92,14 @@ public class PlayerController : MonoBehaviour
 		LostMic?.Invoke(this);
 	}
 
+	public void Bump(PlayerController other)
+	{
+		_isBumping = true;
+		_lastBumpTime = Time.time;
+		_bumpDirection = other.transform.forward;
+		Bumped?.Invoke();
+	}
+
 	async Task SetupModel()
 	{
 		var loader = new AddressableResourceLoader();
@@ -101,11 +113,27 @@ public class PlayerController : MonoBehaviour
 		if (_isDashing)
 		{
 			float progress = (Time.time - _lastDashTime) / _dashDuration;
-			transform.position = Vector3.Lerp(_dashStartPos, _dashEndPos, progress);
+			_charController.Move(transform.forward * _dashDistance * Time.deltaTime);
+			// transform.position = Vector3.Lerp(_dashStartPos, _dashEndPos, progress);
 			if (progress >= 1f)
 			{
 				_isDashing = false;
 			}
+		}
+
+		if (_isBumping)
+		{
+			float progress = (Time.time - _lastBumpTime) / _bumpDuration;
+			_charController.Move(_bumpDirection * _bumpDistance * Time.deltaTime);
+			if (progress >= 1f)
+			{
+				_isBumping = false;
+				_bumpDirection = Vector3.zero;
+			}
+		}
+
+		if (_isBumping || _isDashing)
+		{
 			return;
 		}
 		
@@ -147,8 +175,6 @@ public class PlayerController : MonoBehaviour
 	{
 		Debug.Log("Dash");
 		_isDashing = true;
-		_dashStartPos = transform.position;
-		_dashEndPos = _dashStartPos + (transform.forward * _dashDistance);
 		_lastDashTime = Time.time;
 		Dash?.Invoke();
 	}
@@ -160,22 +186,23 @@ public class PlayerController : MonoBehaviour
 	
 	void OnControllerColliderHit(ControllerColliderHit other)
 	{
-		// force stop dashing
-		_isDashing = false;
-		
-		if (!HasMic)
+		if (!HasMic && other.gameObject.CompareTag("Microphone"))
 		{
-			if (other.gameObject.CompareTag("Microphone"))
+			GetMicrophone();
+			Destroy(other.gameObject);
+		}
+		else if (other.gameObject.CompareTag("Player"))
+		{
+			var otherPlayer = other.gameObject.GetComponent<PlayerController>();
+			if (_isDashing)
 			{
-				GetMicrophone();
-				Destroy(other.gameObject);
-			}
-			else if (other.gameObject.CompareTag("Player"))
-			{
-				var otherPlayer = other.gameObject.GetComponent<PlayerController>();
+				otherPlayer.Bump(this);
 				TryStealMicrophone(otherPlayer);
 			}
 		}
+		
+		// force stop dashing
+		_isDashing = false;
 	}
 
 	bool IsStealProtected()

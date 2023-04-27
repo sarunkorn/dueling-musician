@@ -205,8 +205,10 @@ MonoBehaviour:
   _modelRoot: {fileID: 8968171330571444882}
   _playerSpeed: 5
   _dashDuration: 0.2
-  _dashDistance: 3
-  _dashDelay: 3
+  _dashDistance: 15
+  _dashDelay: 1
+  _bumpDistance: 10
+  _bumpDuration: 0.2
   _micParticle: {fileID: 565872699618614195}
   _micStealDelay: 2
   _scoreIncreaseRate: 0.5
