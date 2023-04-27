@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 
 	bool ValidatedMovement()
 	{
-		return _canMove && !_isFall;
+		return _canMove && !_isFall && !_isBumping;
 	}
 
 	void MoveLogic()
@@ -288,6 +288,10 @@ public class PlayerController : MonoBehaviour
 			var otherPlayer = other.gameObject.GetComponent<PlayerController>();
 			if (_isDashing)
 			{
+				if (otherPlayer._isDashing)
+				{
+					Bump(otherPlayer);
+				}
 				otherPlayer.Bump(this);
 				TryStealMicrophone(otherPlayer);
 			}
