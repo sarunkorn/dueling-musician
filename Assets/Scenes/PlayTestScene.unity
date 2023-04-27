@@ -14879,10 +14879,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 528970557}
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
-      propertyPath: _lights.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _lights.Array.data[0]
       value: 
       objectReference: {fileID: 1041454064}
@@ -14914,10 +14910,6 @@ PrefabInstance:
       propertyPath: _spawnPoints.Array.data[3]
       value: 
       objectReference: {fileID: 1758732858}
-    - target: {fileID: 7655281662174963394, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7655281662449382481, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14927,8 +14919,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7655281662937056994, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655281662937056994, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655281662937056995, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.396
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}

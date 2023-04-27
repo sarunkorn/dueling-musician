@@ -8,7 +8,6 @@ public class GameUIController : MonoBehaviour
 	public class PlayerUI
 	{
 		public GameObject Root;
-		public Text Name;
 		public Slider PerformanceBar;
 	}
 
@@ -29,7 +28,6 @@ public class GameUIController : MonoBehaviour
 	void SetPlayerData(PlayerController controller)
 	{
 		PlayerUI playerUI = _PlayerUis[controller.PlayerIndex];
-		playerUI.Name.text = "Player " + (controller.PlayerIndex + 1);
 		playerUI.PerformanceBar.value = controller.Score;
 		playerUI.Root.SetActive(true);
 		controller.ScoreUpdated += (score) =>
