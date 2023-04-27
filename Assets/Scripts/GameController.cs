@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
 	bool _gameEnded = false;
 	int _bgmPlayIndex = -1;
 
-	void Awake()
+	void Start()
 	{
 		if (Instance == null)
 		{
