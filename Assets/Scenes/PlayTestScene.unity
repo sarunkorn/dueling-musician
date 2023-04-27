@@ -15479,11 +15479,11 @@ PrefabInstance:
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _lights.Array.data[2]
       value: 
-      objectReference: {fileID: 1041454061}
+      objectReference: {fileID: 1041454062}
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _lights.Array.data[3]
       value: 
-      objectReference: {fileID: 1041454062}
+      objectReference: {fileID: 1041454061}
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _spawnPoints.Array.data[0]
       value: 
@@ -15845,7 +15845,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763271775}
   m_LocalRotation: {x: 0.46654025, y: -0.03316504, z: 0.07360564, w: 0.8808078}
-  m_LocalPosition: {x: -19.581, y: 3, z: 0}
+  m_LocalPosition: {x: -19.583, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -18551,7 +18551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2140014156
 Transform:
   m_ObjectHideFlags: 0
