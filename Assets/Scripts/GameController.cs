@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using SmileProject.Generic.Audio;
 using SmileProject.SpaceInvader.Sounds;
 using UnityEngine;
@@ -32,7 +31,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject _micRef;
 
 	[SerializeField] GameUIController _uiController;
-	[SerializeField] AudioManager _audioManager;
+	[SerializeField] Animator _audienceAnimator;
 	
 	public int NumberOfPlayer => _playerList.Count;
 	public float WinScore => _winScore;
@@ -100,6 +99,7 @@ public class GameController : MonoBehaviour
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		controller.TryStart += OnPlayerTryStart;
+		controller.Taunted += SetAudienceCheerPerforming;
 		_playerList.Add(controller);
 		
 		PlayerJoined?.Invoke(controller);
@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour
 		_micRef.SetActive(false);
 		AudioManager.Instance.PlaySound(GameSoundKeys.MicGrab);
 		PlayBGM(PlayerBGM[player.PlayerIndex]);
-
+		SetAudienceCheerMic(true);
 	}
 
 	void OnPlayerLostMic(PlayerController player)
@@ -153,6 +153,7 @@ public class GameController : MonoBehaviour
 		{
 			_micRef.SetActive(true);
 			PlayBGM(GameSoundKeys.DefaultBGM);
+			SetAudienceCheerMic(false);
 		}
 		_lights[player.PlayerIndex].SetActive(false);
 	}
@@ -166,6 +167,16 @@ public class GameController : MonoBehaviour
 			GameEnd?.Invoke(_performingPlayer.PlayerIndex);
 			AudioManager.Instance.PlaySound(GameSoundKeys.Victory);
 		}
+	}
+
+	void SetAudienceCheerMic(bool isCheer)
+	{
+		_audienceAnimator.SetBool("HasMic", isCheer);
+	}
+
+	void SetAudienceCheerPerforming(bool isCheer)
+	{
+		_audienceAnimator.SetBool("Performing", isCheer);
 	}
 
 	public void PlayerJoinedEvent(PlayerInput playerInput)
