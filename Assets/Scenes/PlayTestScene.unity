@@ -6189,7 +6189,7 @@ Transform:
   m_Children:
   - {fileID: 2076472978}
   m_Father: {fileID: 1317211551}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &646609945
 GameObject:
@@ -12415,8 +12415,8 @@ Transform:
   - {fileID: 1419236260}
   - {fileID: 387568379}
   - {fileID: 1069492674}
-  - {fileID: 1042641316}
   - {fileID: 638465238}
+  - {fileID: 1042641316}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15865,6 +15865,10 @@ PrefabInstance:
       propertyPath: _micRef
       value: 
       objectReference: {fileID: 528970557}
+    - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: _audienceAnimator
+      value: 
+      objectReference: {fileID: 387568380}
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _lights.Array.data[0]
       value: 
