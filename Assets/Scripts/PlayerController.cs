@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	public event Action Dash;
-	public event Action<int> GotMic;
-	public event Action<int> LostMic;
+	public event Action<PlayerController> GotMic;
+	public event Action<PlayerController> LostMic;
+
+	const string PlayerModelPrefix = "PlayerPrefab_";
 
 
 	[Header("Movement")]
@@ -23,10 +25,12 @@ public class PlayerController : MonoBehaviour
 	
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
+	[SerializeField] float _scoreIncreaseRate = 0.5f;
 
-	public int PlayerIndex => _playerIndex;
+	public int PlayerIndex => _playerInput.playerIndex;
 	public int TeamIndex => _teamIndex;
 	public bool HasMic => _hasMic;
+	public float Score => _score;
 
 	// movement
 	bool _canMove = true;
@@ -41,19 +45,21 @@ public class PlayerController : MonoBehaviour
 	Vector2 _moveInputValue;
 	
 	// data
-	int _playerIndex = -1;
 	int _teamIndex = 0;
 	bool _hasMic = false;
 	float _lastMicTime;
+	float _score = 0;
 
-	public void Init(int playerIndex, PlayerInput playerInput, Vector3 spawnPosition)
+	public void Init(PlayerInput playerInput, Vector3 spawnPosition)
 	{
-		string playerName = "Player_" + playerIndex;
-		gameObject.name = playerName;
-		_playerIndex = playerIndex;
 		_playerInput = playerInput;
+		
+		string playerName = "Player_" + PlayerIndex;
+		gameObject.name = playerName;
 		_playerInput.defaultActionMap = playerName;
 		_micParticle.SetActive(false);
+		_score = 0;
+		
 		ForceSetPosition(spawnPosition);
 		SetupModel();
 	}
@@ -70,7 +76,7 @@ public class PlayerController : MonoBehaviour
 		_hasMic = true;
 		_lastMicTime = Time.time;
 		_micParticle.SetActive(true);
-		GotMic?.Invoke(_playerIndex);
+		GotMic?.Invoke(this);
 	}
 	
 	public void LostMicrophone()
@@ -78,18 +84,19 @@ public class PlayerController : MonoBehaviour
 		Debug.Assert(_hasMic, "Should have mic.");
 		_hasMic = false;
 		_micParticle.SetActive(false);
-		LostMic?.Invoke(_playerIndex);
+		LostMic?.Invoke(this);
 	}
 
 	async Task SetupModel()
 	{
 		var loader = new AddressableResourceLoader();
-		GameObject model = await loader.Load<GameObject>("PlayerPrefab_" + _playerIndex);
+		GameObject model = await loader.Load<GameObject>(PlayerModelPrefix + PlayerIndex);
 		Instantiate(model, _modelRoot, false);
 	}
 
 	void Update()
 	{
+		// moving
 		if (_isDashing)
 		{
 			float progress = (Time.time - _lastDashTime) / _dashDuration;
@@ -102,6 +109,12 @@ public class PlayerController : MonoBehaviour
 		}
 		
 		MoveLogic();
+		
+		// point
+		if (HasMic)
+		{
+			_score += _scoreIncreaseRate * Time.deltaTime;
+		}
 	}
 
 	void ForceSetPosition(Vector3 pos)
@@ -113,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
 	bool ValidatedMovement()
 	{
-		return _canMove && _playerInput.playerIndex == _playerIndex;
+		return _canMove;
 	}
 
 	void MoveLogic()

@@ -209,6 +209,7 @@ MonoBehaviour:
   _dashDelay: 3
   _micParticle: {fileID: 565872699618614195}
   _micStealDelay: 2
+  _scoreIncreaseRate: 0.5
 --- !u!143 &8774872537127859477
 CharacterController:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &-4708437550725594137
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,14 +11,16 @@ public class GameController : MonoBehaviour
 	
 	[SerializeField] Transform[] _spawnPoints;
 
+	[SerializeField] float _winScore = 20;
+
 	public int NumberOfPlayer => _playerList.Count;
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
-	int _playerIndex = 0;
+	PlayerController _performingPlayer;
 
 	void Update()
 	{
-		//TODO: point increase?
+		CheckWinner();
 	}
 
 	public bool CanStart()
@@ -29,25 +31,37 @@ public class GameController : MonoBehaviour
 	void InitPlayer(PlayerInput playerInput)
 	{
 		var controller = playerInput.GetComponent<PlayerController>();
-		int currentIndex = _playerIndex;
-		controller.Init(currentIndex, playerInput, _spawnPoints[currentIndex].position);
+		int spawnPointIndex = NumberOfPlayer;
+		controller.Init(playerInput, _spawnPoints[spawnPointIndex].position);
 		//TODO: team up?
-		controller.SetTeam(currentIndex);
+		controller.SetTeam(playerInput.playerIndex);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		_playerList.Add(controller);
-		Debug.Log("Created player " + currentIndex);
-		_playerIndex++;
+		Debug.Log("Created player " + controller.PlayerIndex);
 	}
 
-	void OnPlayerGotMic(int playerIndex)
+	void OnPlayerGotMic(PlayerController player)
 	{
-		Debug.Log($"Player {playerIndex} got mic!");
+		Debug.Log($"Player {player.PlayerIndex} got mic!");
+		_performingPlayer = player;
 	}
 
-	void OnPlayerLostMic(int playerIndex)
+	void OnPlayerLostMic(PlayerController player)
 	{
-		Debug.Log($"Player {playerIndex} lost mic...");
+		Debug.Log($"Player {player.PlayerIndex} lost mic...");
+		if (_performingPlayer == player)
+		{
+			_performingPlayer = null;
+		}
+	}
+
+	void CheckWinner()
+	{
+		if (_performingPlayer != null && _performingPlayer.Score > _winScore)
+		{
+			GameEnd?.Invoke();
+		}
 	}
 
 	public void PlayerJoinedEvent(PlayerInput playerInput)
@@ -58,6 +72,9 @@ public class GameController : MonoBehaviour
 
 	public void PlayerLeftEvent(PlayerInput playerInput)
 	{
+		int index = _playerList.FindIndex(o => o.PlayerIndex == playerInput.playerIndex);
+		Destroy(_playerList[index].gameObject);
+		_playerList.RemoveAt(index);
 		Debug.Log("Player left");
 	}
 }

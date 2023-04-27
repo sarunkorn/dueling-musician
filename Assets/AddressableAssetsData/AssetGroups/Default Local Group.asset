@@ -17,12 +17,16 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8d4f55ff16341904c91f8c61eb8a488a
   m_SerializeEntries:
-  - m_GUID: f3fc68cb9548d8d4bab2218a924887ca
+  - m_GUID: beada0c1f7c7c5b4291008fcdabbbcce
     m_Address: PlayerPrefab_0
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: a0536d9410186924aaeff5bd77e1b334
+  - m_GUID: 1706eb8d0601fba4188b3580edec74cd
     m_Address: PlayerPrefab_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dd9c12f98cc43894491cca216cdfedd7
+    m_Address: PlayerPrefab_3
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
