@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject[] _lights;
 
 	[SerializeField] float _winScore = 20;
+	
+	[SerializeField] GameObject _micRef;
 
 	[SerializeField] GameUIController _uiController;
 
@@ -58,6 +60,7 @@ public class GameController : MonoBehaviour
 		Debug.Log($"Player {player.PlayerIndex} got mic!");
 		_performingPlayer = player;
 		_lights[player.PlayerIndex].SetActive(true);
+		_micRef.SetActive(false);
 	}
 
 	void OnPlayerLostMic(PlayerController player)
@@ -66,6 +69,11 @@ public class GameController : MonoBehaviour
 		if (_performingPlayer == player)
 		{
 			_performingPlayer = null;
+		}
+
+		if (player.IsFell && _performingPlayer == null)
+		{
+			_micRef.SetActive(true);
 		}
 		_lights[player.PlayerIndex].SetActive(false);
 	}

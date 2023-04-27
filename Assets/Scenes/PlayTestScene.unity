@@ -5059,6 +5059,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525128310}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &528970557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719584364830088832, guid: 8b01560c0b9d03e498823f5c7fd8ba4d, type: 3}
+  m_PrefabInstance: {fileID: 5698382157769581096}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &532581686
 GameObject:
   m_ObjectHideFlags: 0
@@ -14869,6 +14874,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameController
       objectReference: {fileID: 0}
+    - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
+      propertyPath: _micRef
+      value: 
+      objectReference: {fileID: 528970557}
     - target: {fileID: 6364175034447186271, guid: 9cd2f8775cc3d4b46a3d69921a2255dd, type: 3}
       propertyPath: _lights.Array.size
       value: 4

@@ -30,20 +30,24 @@ public class PlayerController : MonoBehaviour
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
 	[SerializeField] float _scoreIncreaseRate = 0.5f;
+	[SerializeField] float _respawnCooldown = 3f;
 
 	public int PlayerIndex => _playerInput.playerIndex;
 	public int TeamIndex => _teamIndex;
 	public bool HasMic => _hasMic;
 	public float Score => _score;
+	public bool IsFell => _isFall;
 
 	// movement
 	bool _canMove = true;
 	bool _canDash = true;
+	bool _isFall = false;
 	bool _isDashing = false;
 	bool _isBumping = false;
 	float _lastDashTime;
 	float _lastBumpTime;
 	Vector3 _bumpDirection;
+	Vector3 _spawnPos;
 	
 	// input
 	PlayerInput _playerInput;
@@ -54,10 +58,12 @@ public class PlayerController : MonoBehaviour
 	bool _hasMic = false;
 	float _lastMicTime;
 	float _score = 0;
+	float _respawnTime = 0;
 
 	public void Init(PlayerInput playerInput, Vector3 spawnPosition)
 	{
 		_playerInput = playerInput;
+		_spawnPos = spawnPosition;
 		
 		string playerName = "Player_" + PlayerIndex;
 		gameObject.name = playerName;
@@ -109,6 +115,12 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
+		if (_isFall && Time.time > _respawnTime)
+		{
+			Debug.Log($"Player {PlayerIndex} Respawn in... " + (Time.time - _respawnTime));
+			Respawn();
+		}
+		
 		// moving
 		if (_isDashing)
 		{
@@ -154,20 +166,48 @@ public class PlayerController : MonoBehaviour
 		_charController.enabled = true;
 	}
 
+	void Fall()
+	{
+		_isFall = true;
+		_canMove = false;
+		_respawnTime = Time.time + _respawnCooldown;
+		_moveInputValue = Vector2.zero;
+
+		if (HasMic)
+		{
+			LostMicrophone();
+		}
+	}
+
+	void Respawn()
+	{
+		ForceSetPosition(_spawnPos);
+		_canMove = true;
+		_isBumping = false;
+		_isDashing = false;
+		_isFall = false;
+	}
+
 	bool ValidatedMovement()
 	{
-		return _canMove;
+		return _canMove && !_isFall;
 	}
 
 	void MoveLogic()
 	{
 		Vector3 move = new Vector3(_moveInputValue.x, 0, _moveInputValue.y);
 		float moveSpeed = _playerSpeed;
-		_charController.Move(move * Time.deltaTime * moveSpeed);
+		Vector3 moveVector = move * Time.deltaTime * moveSpeed;
+		_charController.Move(moveVector - transform.up);
 
 		if (move != Vector3.zero)
 		{
 			gameObject.transform.forward = move;
+		}
+
+		if (!_charController.isGrounded && !_isFall)
+		{
+			Fall();
 		}
 	}
 
@@ -189,7 +229,6 @@ public class PlayerController : MonoBehaviour
 		if (!HasMic && other.gameObject.CompareTag("Microphone"))
 		{
 			GetMicrophone();
-			Destroy(other.gameObject);
 		}
 		else if (other.gameObject.CompareTag("Player"))
 		{
