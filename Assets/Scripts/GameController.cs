@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] float _joinerStartDelay = 0.5f;
 	
 	[SerializeField] GameObject _micRef;
+	[SerializeField] GameObject _obstaclesRef;
 
 	[SerializeField] GameUIController _uiController;
 	[SerializeField] Animator _audienceAnimator;
@@ -52,6 +53,7 @@ public class GameController : MonoBehaviour
 		{
 			Destroy(this);
 		}
+		_obstaclesRef.SetActive(false);
 		
 		_uiController.Init(this);
 		PlayBGM(GameSoundKeys.DefaultBGM);
@@ -124,6 +126,7 @@ public class GameController : MonoBehaviour
 				{
 					player.AllowMove(true);
 				}
+				_obstaclesRef.SetActive(true);
 				GameStart?.Invoke();
 				AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
 			}
@@ -164,6 +167,7 @@ public class GameController : MonoBehaviour
 		{
 			_isPlaying = false;
 			_gameEnded = true;
+			_obstaclesRef.SetActive(false);
 			GameEnd?.Invoke(_performingPlayer.PlayerIndex);
 			AudioManager.Instance.PlaySound(GameSoundKeys.Victory);
 		}
