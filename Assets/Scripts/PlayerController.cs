@@ -164,8 +164,8 @@ public class PlayerController : MonoBehaviour
 	{
 		var loader = new AddressableResourceLoader();
 		GameObject model = await loader.Load<GameObject>(PlayerModelPrefix + PlayerIndex);
-		Instantiate(model, _modelRoot, false);
-		_animator = model.GetComponent<Animator>();
+		var modelObj = Instantiate(model, _modelRoot, false);
+		_animator = modelObj.GetComponent<Animator>();
 	}
 
 	void Update()
@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
 		_isTaunting = true;
 		_moveInputValue = Vector2.zero;
 		_canMove = false;
-		_animator.SetBool("isTaunting", true);
+		_animator.SetBool("Taunt", true);
 		Taunted?.Invoke(true);
 	}
 
@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
 	{
 		_isTaunting = false;
 		_canMove = true;
-		_animator.SetBool("isTaunting", false);
+		_animator.SetBool("Taunt", false);
 		Taunted?.Invoke(false);
 	}
 
