@@ -29,16 +29,40 @@ MonoBehaviour:
     m_Address: GameStart
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 2ebd0d8111ed2734b9efc341e9a32fc5
-    m_Address: MicGrab
+  - m_GUID: 80207bcc240ade449b014afb884e4ece
+    m_Address: Victory
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: e3ae42605c7473e4aab03d7daa312677
+  - m_GUID: f3a2562e5a2dcd8479bf240bd6b2d330
+    m_Address: RockBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 33670af5ecf3baf4c9ab43598c7fc9f2
+    m_Address: MaestroBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f22b8cb5a2bb4764fb9007d91bbbbcfa
+    m_Address: DefaultBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5c184f53ba1ece74fb8ce5acee55d2bf
+    m_Address: JazzBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4913a41e4d0254845a2f1501435f73ae
+    m_Address: DJBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6305dc1d5975f4740840e007f4f1b2f8
+    m_Address: Taunt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 16a2e61f0164a7f4699c9636c938e459
     m_Address: Dash
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 62a4b6e5f8c0b8d4c8cea8855f5d25c9
-    m_Address: Taunt
+  - m_GUID: 2e437a1dc3a5101469dced4525ce83e5
+    m_Address: MicGrab
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
