@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RedGlow
+  m_Name: BlueGlow
   m_Shader: {fileID: 4800000, guid: 608324eddcd17ca40aa8a1bfca2495fa, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3100
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -30,5 +30,5 @@ Material:
     m_Floats:
     - __dirty: 0
     m_Colors:
-    - _Tint: {r: 1, g: 0, b: 0, a: 1}
+    - _Tint: {r: 0, g: 0, b: 1, a: 1}
   m_BuildTextureStacks: []
