@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 	public event Action Dash;
 	public event Action<PlayerController> GotMic;
 	public event Action<PlayerController> LostMic;
+	public event Action<float> ScoreUpdated;
 
 	const string PlayerModelPrefix = "PlayerPrefab_";
 
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
 		if (HasMic)
 		{
 			_score += _scoreIncreaseRate * Time.deltaTime;
+			ScoreUpdated?.Invoke(_score);
 		}
 	}
 

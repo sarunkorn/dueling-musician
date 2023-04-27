@@ -8,15 +8,24 @@ public class GameController : MonoBehaviour
 {
 	public event Action GameStart;
 	public event Action GameEnd;
+	public event Action<PlayerController> PlayerJoined;
 	
 	[SerializeField] Transform[] _spawnPoints;
 
 	[SerializeField] float _winScore = 20;
 
+	[SerializeField] GameUIController _uiController;
+
 	public int NumberOfPlayer => _playerList.Count;
+	public float WinScore => _winScore;
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
 	PlayerController _performingPlayer;
+
+	void Awake()
+	{
+		_uiController.Init(this);
+	}
 
 	void Update()
 	{
@@ -38,6 +47,8 @@ public class GameController : MonoBehaviour
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
 		_playerList.Add(controller);
+		
+		PlayerJoined?.Invoke(controller);
 		Debug.Log("Created player " + controller.PlayerIndex);
 	}
 
