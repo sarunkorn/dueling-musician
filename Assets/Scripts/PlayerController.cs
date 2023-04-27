@@ -127,6 +127,13 @@ public class PlayerController : MonoBehaviour
 		Bumped?.Invoke();
 	}
 
+	void StartCharge()
+	{
+		_isCharging = true;
+		_lastDashChargeStartTime = Time.time;
+		_arrowRoot.SetActive(true);
+	}
+
 	void CancelCharge()
 	{
 		_isCharging = false;
@@ -142,6 +149,11 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
+		if (_tryCharging && !IsDashCooldown() && !_isCharging)
+		{
+			StartCharge();
+		}
+		
 		if (_isFall && Time.time > _respawnTime)
 		{
 			Debug.Log($"Player {PlayerIndex} Respawn in... " + (Time.time - _respawnTime));
@@ -330,9 +342,7 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("input phase : " + input.phase);
 		if (input.phase == InputActionPhase.Started && !_isCharging)
 		{
-			_isCharging = true;
-			_lastDashChargeStartTime = Time.time;
-			_arrowRoot.SetActive(true);
+			StartCharge();
 		}
 		else if (input.phase == InputActionPhase.Canceled && _isCharging)
 		{
