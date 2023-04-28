@@ -138,6 +138,7 @@ public class GameController : MonoBehaviour
 	void OnPlayerGotMic(PlayerController player)
 	{
 		Debug.Log($"Player {player.PlayerIndex} got mic!");
+		_cameraAnimator.SetInteger("PlayerInt", player.PlayerIndex);
 		_cameraAnimator.SetTrigger("CutIn");
 		_cameraTargetRef.transform.SetParent(player.gameObject.transform);
 		_cameraTargetRef.transform.localPosition = new Vector3(0f,0f,0f);
@@ -151,6 +152,9 @@ public class GameController : MonoBehaviour
 
 	void OnPlayerLostMic(PlayerController player)
 	{
+		_cameraTargetRef.transform.SetParent(null);
+		_cameraTargetRef.transform.localPosition = new Vector3(0f,0f,0f);
+		_cameraAnimator.SetTrigger("CutOut");
 		Debug.Log($"Player {player.PlayerIndex} lost mic...");
 		if (_performingPlayer == player)
 		{
@@ -162,7 +166,7 @@ public class GameController : MonoBehaviour
 			_micRef.SetActive(true);
 			PlayBGM(GameSoundKeys.DefaultBGM);
 			SetAudienceCheerMic(false);
-			_cameraAnimator.SetTrigger("CutOut");
+
 		}
 		_lights[player.PlayerIndex].SetActive(false);
 	}

@@ -39,5 +39,6 @@ Material:
     - _Alpha: 0.431
     - __dirty: 0
     m_Colors:
+    - _Stretch: {r: 1, g: 0, b: 0, a: 0}
     - _Tint: {r: 1, g: 0.95373636, b: 0.6924528, a: 1}
   m_BuildTextureStacks: []

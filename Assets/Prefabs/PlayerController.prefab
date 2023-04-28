@@ -5279,10 +5279,16 @@ MonoBehaviour:
   _arrowStartZ: 0.25
   _arrowEndZ: 1.8
   _micParticle: {fileID: 565872699618614195}
+  _micLight: {fileID: 1202415904835628586}
   _micStealDelay: 0.3
   _scoreIncreaseRate: 0.5
   _tauntScoreIncreaseRate: 2
   _respawnCooldown: 3
+  _PlayerColors:
+  - LightColor: {r: 1, g: 0, b: 0, a: 0}
+  - LightColor: {r: 0, g: 1, b: 0, a: 0}
+  - LightColor: {r: 1, g: 1, b: 0, a: 0}
+  - LightColor: {r: 0, g: 0, b: 1, a: 0}
 --- !u!143 &8774872537127859477
 CharacterController:
   m_ObjectHideFlags: 0

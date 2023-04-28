@@ -37,6 +37,14 @@ MonoBehaviour:
     m_Address: RockBGM
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 930d664fbb8c0da4eaae2403c17ef821
+    m_Address: DJBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fd5d592d7854fb549a1d39ab529e9c63
+    m_Address: JazzBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b85ef48eca1e04c40be00eaa79bf0e4b, type: 2}
   m_SchemaSet:

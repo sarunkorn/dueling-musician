@@ -10,6 +10,7 @@ public class GameUIController : MonoBehaviour
 		public GameObject Root;
 		public Slider PerformanceBar;
 		public GameObject VictoryModel;
+		public Animator ScoreAnimator;
 	}
 
 	public PlayerUI[] _PlayerUis;
@@ -46,6 +47,8 @@ public class GameUIController : MonoBehaviour
 		controller.ScoreUpdated += (score) =>
 		{
 			playerUI.PerformanceBar.value = score;
+			playerUI.ScoreAnimator.SetBool("Updating", true);
+			playerUI.ScoreAnimator.SetFloat("ScoreProgress", score/20f);
 		};
 	}
 }

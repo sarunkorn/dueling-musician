@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Reference")] 
 	[SerializeField] GameObject _micParticle;
+	[SerializeField] Light _micLight;
 	
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
@@ -55,6 +56,14 @@ public class PlayerController : MonoBehaviour
 	public bool IsFell => _isFall;
 	public bool AllowInput => _allowInput;
 	public float JoinedTime => _joinedTime;
+
+	[Serializable]
+	public class PlayerColors
+	{
+		public Color LightColor;
+	}
+
+	public PlayerColors[] _PlayerColors;
 
 	// movement
 	bool _canMove = true;
@@ -127,6 +136,7 @@ public class PlayerController : MonoBehaviour
 		_hasMic = true;
 		_lastMicTime = Time.time;
 		_micParticle.SetActive(true);
+		_micLight.color = _PlayerColors[PlayerIndex].LightColor;
 		GotMic?.Invoke(this);
 	}
 	

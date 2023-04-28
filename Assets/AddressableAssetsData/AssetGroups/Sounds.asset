@@ -41,14 +41,6 @@ MonoBehaviour:
     m_Address: DefaultBGM
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 5c184f53ba1ece74fb8ce5acee55d2bf
-    m_Address: JazzBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 4913a41e4d0254845a2f1501435f73ae
-    m_Address: DJBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 6305dc1d5975f4740840e007f4f1b2f8
     m_Address: Taunt
     m_ReadOnly: 0
