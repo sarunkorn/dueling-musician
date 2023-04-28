@@ -2194,7 +2194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Maestro
+  m_text: Disco
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 682f7b6abf9d05d4089436d9ea40ed6e, type: 2}
   m_sharedMaterial: {fileID: -9108627139161347459, guid: 682f7b6abf9d05d4089436d9ea40ed6e, type: 2}
@@ -2798,7 +2798,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Maestro Wins!
+  m_text: Disco Wins!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 682f7b6abf9d05d4089436d9ea40ed6e, type: 2}
   m_sharedMaterial: {fileID: -9108627139161347459, guid: 682f7b6abf9d05d4089436d9ea40ed6e, type: 2}
@@ -5806,29 +5806,31 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1024050395578748770, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
     - {fileID: 4825624351449056981, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
+    - {fileID: 3063368293468581083, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
+    - {fileID: 8599512493322730041, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
+--- !u!1 &5583514483869293452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5759565199927054030, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
+  m_PrefabInstance: {fileID: 185411605903545666}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3898587618706258571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3785317367327059913, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
   m_PrefabInstance: {fileID: 185411605903545666}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4418383507668639793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4594787330200778099, guid: beada0c1f7c7c5b4291008fcdabbbcce, type: 3}
-  m_PrefabInstance: {fileID: 185411605903545666}
-  m_PrefabAsset: {fileID: 0}
---- !u!111 &263809483668498554
+--- !u!111 &7253582743612653160
 Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4418383507668639793}
+  m_GameObject: {fileID: 5583514483869293452}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: 6341c1a091545054faaa65661a54fb61, type: 2}
   m_Animations:
-  - {fileID: 0}
+  - {fileID: 7400000, guid: 6341c1a091545054faaa65661a54fb61, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
