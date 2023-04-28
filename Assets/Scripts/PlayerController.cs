@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] CharacterController _charController;
 	[SerializeField] Transform _modelRoot;
 	[SerializeField] float _playerSpeed = 10.0f;
+	[Range(0f, 1f)]
+	[SerializeField] float _playerChargeSpeedMultiplier = 0.7f;
 	[SerializeField] float _instantDashDuration = 1f;
 	[SerializeField] float _instantDashDistance = 10f;
 	[SerializeField] float _dashDuration = 1f;
@@ -305,7 +307,7 @@ public class PlayerController : MonoBehaviour
 	void MoveLogic()
 	{
 		Vector3 move = new Vector3(_moveInputValue.x, 0, _moveInputValue.y);
-		float moveSpeed = _playerSpeed;
+		float moveSpeed = _isCharging ? _playerSpeed * _playerChargeSpeedMultiplier : _playerSpeed;
 		Vector3 moveVector = move * Time.deltaTime * moveSpeed;
 		_charController.Move(moveVector - transform.up);
 
