@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
 	public static GameController Instance;
 	public event Action GameStart;
 	public event Action<int> GameEnd;
+	
+	public event Action PlayerReady;
 	public event Action<PlayerController> PlayerJoined;
 
 	readonly List<GameSoundKeys> PlayerBGM = new List<GameSoundKeys>()
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] float _winScore = 20;
 	[SerializeField] float _joinerStartDelay = 0.5f;
+	[SerializeField] float _readyWaiting = 2f;
 	
 	[SerializeField] GameObject _micRef;
 	[SerializeField] GameObject _obstaclesRef;
@@ -46,6 +49,9 @@ public class GameController : MonoBehaviour
 	bool _isPlaying = false;
 	bool _gameEnded = false;
 	int _bgmPlayIndex = -1;
+
+	bool _isReadyStage = false;
+	float _readyTime = -1;
 
 	void Start()
 	{
@@ -67,6 +73,14 @@ public class GameController : MonoBehaviour
 	{
 		if (!_isPlaying && !_gameEnded)
 		{
+			if (_isReadyStage)
+			{
+				if (Time.time - _readyTime > _readyWaiting)
+				{
+					StartGame();
+				}
+			}
+
 			foreach (var player in _playerList)
 			{
 				if(player.AllowInput)
@@ -111,6 +125,39 @@ public class GameController : MonoBehaviour
 		Debug.Log("Created player " + controller.PlayerIndex);
 	}
 
+	void Ready()
+	{
+		Debug.Log("Game Ready");
+		
+		_playerInputManager.DisableJoining();
+		foreach (var player in _playerList)
+		{
+			player.MoveToStartPoint();
+			player.AllowMove(false);
+		}
+		_obstaclesRef.SetActive(true);
+		_micRef.SetActive(true);
+		
+		_readyTime = Time.time;
+		_isReadyStage = true;
+		PlayerReady?.Invoke();
+	}
+
+	void StartGame()
+	{
+		Debug.Log("Game Start");
+		_isReadyStage = false;
+		_isPlaying = true;
+		
+		foreach (var player in _playerList)
+		{
+			player.AllowMove(true);
+		}
+		
+		GameStart?.Invoke();
+		AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
+	}
+
 	void OnPlayerTryStart()
 	{
 		if (!_isPlaying)
@@ -123,17 +170,7 @@ public class GameController : MonoBehaviour
 
 			if (CanStart())
 			{
-				Debug.Log("Game Start");
-				_isPlaying = true;
-				foreach (var player in _playerList)
-				{
-					player.MoveToStartPoint();
-				}
-				_obstaclesRef.SetActive(true);
-				_micRef.SetActive(true);
-				GameStart?.Invoke();
-				_playerInputManager.DisableJoining();
-				AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
+				Ready();
 			}
 		}
 	}

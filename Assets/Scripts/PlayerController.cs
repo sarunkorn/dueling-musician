@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviour
 	public void AllowMove(bool allowMove)
 	{
 		_allowMove = allowMove;
+		_moveInputValue = Vector2.zero;
 	}
 	
 	public void SetAllowInput(bool allowInput)

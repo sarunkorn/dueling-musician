@@ -18,6 +18,7 @@ public class GameUIController : MonoBehaviour
 	[SerializeField] GameObject _victoryPanel;
 	[SerializeField] GameObject _startPanel;
 	[SerializeField] GameObject gameTitle;
+	[SerializeField] GameObject readyAnimation;
 
 	GameController _gameController;
 
@@ -37,8 +38,19 @@ public class GameUIController : MonoBehaviour
 			gameTitle.SetActive(false);
 			SetPlayerData(controller);
 		};
-		controller.GameStart += () => { _startPanel.SetActive(false); };
+
+		controller.PlayerReady += ShowReady;
+		controller.GameStart += () =>
+		{
+			_startPanel.SetActive(false);
+			readyAnimation.SetActive(false);
+		};
 		controller.GameEnd += ShowVictory;
+	}
+
+	void ShowReady()
+	{
+		readyAnimation.SetActive(true);
 	}
 
 	void ShowVictory(int playerIndex)
