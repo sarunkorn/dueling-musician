@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _dashDelay = 5f;
 	[SerializeField] float _bumpDistance = 2f;
 	[SerializeField] float _bumpDuration = 0.5f;
+	[SerializeField] float _arrowDelay = 0.3f;
 	
 	[Header("Arrow")]
 	[SerializeField] GameObject _arrowRoot;
@@ -396,12 +397,29 @@ public class PlayerController : MonoBehaviour
 	{
 		if (!ValidatedMovement())
 		{
+			Vector3 dir = input.ReadValue<Vector2>();
+			Vector3 moveDir = new Vector3(dir.x, 0, dir.y);
+			if (moveDir != Vector3.zero)
+			{
+				gameObject.transform.forward = moveDir;
+			}
+
 			return;
 		}
 		_moveInputValue = input.ReadValue<Vector2>();
 	}
 	
 	public void OnDash(InputAction.CallbackContext input)
+	{
+		if (!IsAllowDash())
+		{
+			return;
+		}
+
+		StartDash();
+	}
+	
+	public void OnCharge(InputAction.CallbackContext input)
 	{
 		if (!IsAllowDash())
 		{
