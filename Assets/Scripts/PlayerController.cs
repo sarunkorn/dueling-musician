@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
 	[Header("Reference")] 
 	[SerializeField] GameObject _micParticle;
 	[SerializeField] Light _micLight;
+	[SerializeField] ParticleSystem musicNotesSystem;
 	
 	[Header("Data")]
 	[SerializeField] float _micStealDelay = 2f;
@@ -136,6 +137,9 @@ public class PlayerController : MonoBehaviour
 		_hasMic = true;
 		_lastMicTime = Time.time;
 		_micParticle.SetActive(true);
+		ParticleSystem.MainModule settings = musicNotesSystem.main;
+		settings.startColor = new ParticleSystem.MinMaxGradient( _PlayerColors[PlayerIndex].LightColor );
+		//_musicNotesRenderer.sharedMaterial.Tint = new Vector4(1f,1f,0f,1f);
 		_micLight.color = _PlayerColors[PlayerIndex].LightColor;
 		GotMic?.Invoke(this);
 	}
@@ -359,8 +363,10 @@ public class PlayerController : MonoBehaviour
 		_isTaunting = true;
 		_moveInputValue = Vector2.zero;
 		_canMove = false;
+		musicNotesSystem.gameObject.transform.localEulerAngles = new Vector3(0f,0f,0f);
 		_animator.SetBool("Taunt", true);
 		Taunted?.Invoke(true);
+		
 		_tauntSoundIndex = await AudioManager.Instance.PlaySound(GameSoundKeys.Taunt, true);
 	}
 
@@ -369,6 +375,7 @@ public class PlayerController : MonoBehaviour
 		_isTaunting = false;
 		_canMove = true;
 		_animator.SetBool("Taunt", false);
+		musicNotesSystem.gameObject.transform.localEulerAngles = new Vector3(-180f,0f,0f);
 		Taunted?.Invoke(false);
 
 		if (_tauntSoundIndex > -1)
