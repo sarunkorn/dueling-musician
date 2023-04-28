@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _dashDelay = 5f;
 	[SerializeField] float _bumpDistance = 2f;
 	[SerializeField] float _bumpDuration = 0.5f;
-	[SerializeField] float _arrowDelay = 0.3f;
+	[SerializeField] float _superBumpDistance = 2f;
+	[SerializeField] float _superBumpDuration = 0.5f;
 	
 	[Header("Arrow")]
 	[SerializeField] GameObject _arrowRoot;
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
 	bool _allowInput = false;
 	bool _isFall = false;
 	bool _isDashing = false;
+	bool _isSuperDash = false;
 	bool _isCharging = false;
 	bool _isBumping = false;
 	bool _holdCharging = false;
@@ -87,6 +89,8 @@ public class PlayerController : MonoBehaviour
 	float _joinedTime;
 	Vector3 _bumpDirection;
 	Vector3 _spawnPos;
+	float _finalBumpDuration;
+	float _finalBumpDistance;
 	
 	// input
 	PlayerInput _playerInput;
@@ -160,12 +164,15 @@ public class PlayerController : MonoBehaviour
 		LostMic?.Invoke(this);
 	}
 
-	public void Bump(PlayerController other)
+	public void Bump(PlayerController other, bool isSuperDash)
 	{
 		_isBumping = true;
+		
 		_lastBumpTime = Time.time;
 		_bumpDirection = other.transform.forward;
-		
+		_finalBumpDuration = isSuperDash ? _superBumpDuration : _bumpDuration;
+		_finalBumpDistance = isSuperDash ? _superBumpDistance : _bumpDistance;
+
 		_isDashing = false;
 		CancelCharge();
 		StopTaunt();
@@ -228,11 +235,12 @@ public class PlayerController : MonoBehaviour
 			if (progress >= 1f)
 			{
 				_isDashing = false;
+				_isSuperDash = false;
 			}
 		}else if(_isBumping)
 		{
-			float progress = (Time.time - _lastBumpTime) / _bumpDuration;
-			_charController.Move(_bumpDirection * _bumpDistance * Time.deltaTime);
+			float progress = (Time.time - _lastBumpTime) / _finalBumpDuration;
+			_charController.Move(_bumpDirection * _finalBumpDistance * Time.deltaTime);
 			if (progress >= 1f)
 			{
 				_isBumping = false;
@@ -282,6 +290,7 @@ public class PlayerController : MonoBehaviour
 		_canMove = true;
 		_isBumping = false;
 		_isDashing = false;
+		_isSuperDash = false;
 		_isCharging = false;
 		_isFall = false;
 	}
@@ -312,6 +321,10 @@ public class PlayerController : MonoBehaviour
 	void StartDash()
 	{
 		Debug.Log("Dash");
+		if (_isCharging)
+		{
+			_isSuperDash = true;
+		}
 		_isCharging = false;
 		_isDashing = true;
 		_lastDashTime = Time.time;
@@ -336,11 +349,14 @@ public class PlayerController : MonoBehaviour
 			var otherPlayer = other.gameObject.GetComponent<PlayerController>();
 			if (_isDashing)
 			{
+				bool mineSuperDash = _isSuperDash;
+				bool otherSuperDash = otherPlayer._isSuperDash;
 				if (otherPlayer._isDashing)
 				{
-					Bump(otherPlayer);
+					
+					Bump(otherPlayer, otherSuperDash);
 				}
-				otherPlayer.Bump(this);
+				otherPlayer.Bump(this, mineSuperDash);
 				TryStealMicrophone(otherPlayer);
 			}
 		}
