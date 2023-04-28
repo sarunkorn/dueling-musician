@@ -45,6 +45,10 @@ MonoBehaviour:
     m_Address: JazzBGM
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e44a29bd5e9370347b8b43ea9777cc7c
+    m_Address: MaestroBGM
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b85ef48eca1e04c40be00eaa79bf0e4b, type: 2}
   m_SchemaSet:
