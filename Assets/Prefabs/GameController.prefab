@@ -3144,6 +3144,7 @@ MonoBehaviour:
   _cameraAnimator: {fileID: 0}
   _uiController: {fileID: 7655281662438835809}
   _audienceAnimator: {fileID: 0}
+  _playerInputManager: {fileID: 6364175034447186209}
 --- !u!114 &6364175034447186209
 MonoBehaviour:
   m_ObjectHideFlags: 0

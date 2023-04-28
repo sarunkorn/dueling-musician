@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] GameUIController _uiController;
 	[SerializeField] Animator _audienceAnimator;
+	[SerializeField] PlayerInputManager _playerInputManager;
 	
 	public int NumberOfPlayer => _playerList.Count;
 	public float WinScore => _winScore;
@@ -130,6 +131,7 @@ public class GameController : MonoBehaviour
 				}
 				_obstaclesRef.SetActive(true);
 				GameStart?.Invoke();
+				_playerInputManager.DisableJoining();
 				AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
 			}
 		}
