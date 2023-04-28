@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float _arrowEndZ = 2.5f;
 
 
-	[Header("Reference")] 
+	[Header("Reference")]
+	[SerializeField] GameObject _tutText;
 	[SerializeField] GameObject _micParticle;
 	[SerializeField] Light _micLight;
 	[SerializeField] ParticleSystem musicNotesSystem;
@@ -124,6 +125,7 @@ public class PlayerController : MonoBehaviour
 
 	public void MoveToStartPoint()
 	{
+		_tutText.SetActive(false);
 		ForceSetPosition(_spawnPos);
 	}
 
@@ -351,11 +353,7 @@ public class PlayerController : MonoBehaviour
 			{
 				bool mineSuperDash = _isSuperDash;
 				bool otherSuperDash = otherPlayer._isSuperDash;
-				if (otherPlayer._isDashing)
-				{
-					
-					Bump(otherPlayer, otherSuperDash);
-				}
+				Bump(otherPlayer, otherSuperDash);
 				otherPlayer.Bump(this, mineSuperDash);
 				TryStealMicrophone(otherPlayer);
 			}
