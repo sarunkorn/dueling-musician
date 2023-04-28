@@ -220,6 +220,10 @@ public class PlayerController : MonoBehaviour
 		if (_isCharging)
 		{
 			float progress = (Time.time - _lastDashChargeStartTime) / _dashChargeDuration;
+			if (progress < 1f)
+			{
+				return;
+			}
 			_dashDistance = Mathf.Lerp(_dashMinDistance, _dashMaxDistance, progress);
 			_dashFinalDuration = Mathf.Lerp(_dashDuration, _dashDurationMax, progress);
 			Debug.Log(_dashDistance);
@@ -227,10 +231,6 @@ public class PlayerController : MonoBehaviour
 			Vector3 scale = _arrowRoot.transform.localScale;
 			scale.z = arrowSize;
 			_arrowRoot.transform.localScale = scale;
-			if (progress >= 1f)
-			{
-				StartDash();
-			}
 		}
 		else if (_isDashing)
 		{
