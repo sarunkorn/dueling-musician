@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
 	
 	public int NumberOfPlayer => _playerList.Count;
 	public float WinScore => _winScore;
+	public bool IsPlaying => _isPlaying;
 	
 	List<PlayerController> _playerList = new List<PlayerController>();
 	PlayerController _performingPlayer;

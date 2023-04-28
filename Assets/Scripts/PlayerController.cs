@@ -198,9 +198,9 @@ public class PlayerController : MonoBehaviour
 			StartCharge();
 		}
 		
-		if (_isFall && Time.time > _respawnTime)
+		if (_isFall && (Time.time > _respawnTime || !GameController.Instance.IsPlaying))
 		{
-			Debug.Log($"Player {PlayerIndex} Respawn in... " + (Time.time - _respawnTime));
+			Debug.Log($"Player {PlayerIndex} Respawn");
 			Respawn();
 		}
 
