@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] CharacterController _charController;
 	[SerializeField] Transform _modelRoot;
 	[SerializeField] float _playerSpeed = 10.0f;
+	[SerializeField] float _instantDashDuration = 1f;
+	[SerializeField] float _instantDashDistance = 10f;
 	[SerializeField] float _dashDuration = 1f;
 	[SerializeField] float _dashDurationMax = 2f;
 	[SerializeField] float _dashMinDistance = 10.0f;
@@ -421,7 +423,12 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		StartDash();
+		if (input.phase == InputActionPhase.Started)
+		{
+			_dashFinalDuration = _instantDashDuration;
+			_dashDistance = _instantDashDistance;
+			StartDash();
+		}
 	}
 	
 	public void OnCharge(InputAction.CallbackContext input)

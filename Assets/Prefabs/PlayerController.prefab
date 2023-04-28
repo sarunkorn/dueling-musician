@@ -10066,6 +10066,8 @@ MonoBehaviour:
   _charController: {fileID: 8774872537127859477}
   _modelRoot: {fileID: 8968171330571444882}
   _playerSpeed: 5
+  _instantDashDuration: 0.15
+  _instantDashDistance: 10
   _dashDuration: 0.15
   _dashDurationMax: 0.2
   _dashMinDistance: 10
