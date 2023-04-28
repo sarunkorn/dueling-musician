@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
 	// movement
 	bool _canMove = true;
-	bool _allowMove = false;
+	bool _allowMove = true;
 	bool _allowInput = false;
 	bool _isFall = false;
 	bool _isDashing = false;
