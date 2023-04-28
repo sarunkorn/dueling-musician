@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
 		if (_isCharging)
 		{
 			float progress = (Time.time - _lastDashChargeStartTime) / _dashChargeDuration;
-			if (progress < 1f)
+			if (progress >= 1f)
 			{
 				return;
 			}
