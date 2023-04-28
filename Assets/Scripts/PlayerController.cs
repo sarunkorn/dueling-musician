@@ -116,6 +116,11 @@ public class PlayerController : MonoBehaviour
 		SetupModel();
 	}
 
+	public void MoveToStartPoint()
+	{
+		ForceSetPosition(_spawnPos);
+	}
+
 	public void SetTeam(int teamIndex)
 	{
 		_teamIndex = teamIndex;

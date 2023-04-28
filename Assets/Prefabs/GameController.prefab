@@ -4778,6 +4778,7 @@ MonoBehaviour:
     ScoreAnimator: {fileID: 5730840129039097332}
   _victoryPanel: {fileID: 1677347273928859755}
   _startPanel: {fileID: 6087378017757625263}
+  gameTitle: {fileID: 6582808318796975314}
 --- !u!1 &7655281662937056993
 GameObject:
   m_ObjectHideFlags: 0

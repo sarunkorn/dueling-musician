@@ -99,7 +99,6 @@ public class GameController : MonoBehaviour
 		controller.Init(playerInput, _spawnPoints[spawnPointIndex].position);
 		//TODO: team up?
 		controller.SetTeam(playerInput.playerIndex);
-		controller.AllowMove(false);
 		controller.SetAllowInput(false);
 		controller.GotMic += OnPlayerGotMic;
 		controller.LostMic += OnPlayerLostMic;
@@ -127,9 +126,10 @@ public class GameController : MonoBehaviour
 				_isPlaying = true;
 				foreach (var player in _playerList)
 				{
-					player.AllowMove(true);
+					player.MoveToStartPoint();
 				}
 				_obstaclesRef.SetActive(true);
+				_micRef.SetActive(true);
 				GameStart?.Invoke();
 				_playerInputManager.DisableJoining();
 				AudioManager.Instance.PlaySound(GameSoundKeys.GameStart);
@@ -198,6 +198,10 @@ public class GameController : MonoBehaviour
 	public void PlayerJoinedEvent(PlayerInput playerInput)
 	{
 		Debug.Log("Player joined");
+		if (_micRef.activeSelf == true)
+		{
+			_micRef.SetActive(false);
+		}
 		InitPlayer(playerInput);
 		AudioManager.Instance.PlaySound(GameSoundKeys.PlayerJoined);
 	}
