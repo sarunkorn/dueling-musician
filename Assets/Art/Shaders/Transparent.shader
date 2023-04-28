@@ -8,7 +8,7 @@ Shader "Transparent"
 		_Tint("Tint", Color) = (0,0,0,0)
 		_Stretch("Stretch", Vector) = (1,0,0,0)
 		[ToggleUI]_UseVertexColor("UseVertexColor", Float) = 0
-		[ToggleUI]_TextureIsAlpha("TextureIsAlpha", Float) = 0
+		[ToggleUI]_TextureIsAlpha("TextureIsAlpha", Float) = 1
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -16,7 +16,7 @@ Shader "Transparent"
 	SubShader
 	{
 		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  }
-		Cull Back
+		Cull Off
 		CGPROGRAM
 		#pragma target 3.0
 		#pragma surface surf Unlit alpha:fade keepalpha noshadow nometa noforwardadd 
@@ -63,9 +63,9 @@ Node;AmplifyShaderEditor.TextureCoordinatesNode;5;-1055.128,-203.2216;Inherit;Fa
 Node;AmplifyShaderEditor.DynamicAppendNode;12;-1227.564,-93.33917;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.Vector2Node;10;-1419.564,-161.3392;Inherit;False;Property;_Stretch;Stretch;3;0;Create;True;0;0;0;False;0;False;1,0;1,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.DynamicAppendNode;11;-1225.564,-218.3392;Inherit;False;FLOAT2;4;0;FLOAT;1;False;1;FLOAT;1;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;2;392,-82;Float;False;True;-1;2;ASEMaterialInspector;0;0;Unlit;Transparent;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;False;False;False;False;False;Back;0;False;;0;False;;False;0;False;;0;False;;False;0;Transparent;0.5;True;False;0;False;Transparent;;Transparent;All;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;2;392,-82;Float;False;True;-1;2;ASEMaterialInspector;0;0;Unlit;Transparent;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;False;False;False;False;False;Off;0;False;;0;False;;False;0;False;;0;False;;False;0;Transparent;0.5;True;False;0;False;Transparent;;Transparent;All;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;False;2;5;False;;10;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.ToggleSwitchNode;13;105.436,-202.3392;Inherit;False;Property;_UseVertexColor;UseVertexColor;4;0;Create;True;0;0;0;False;0;False;0;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ToggleSwitchNode;14;140.2419,121.3269;Inherit;False;Property;_TextureIsAlpha;TextureIsAlpha;5;0;Create;True;0;0;0;False;0;False;0;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;14;140.2419,121.3269;Inherit;False;Property;_TextureIsAlpha;TextureIsAlpha;5;0;Create;True;0;0;0;False;0;False;1;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 WireConnection;8;0;3;1
 WireConnection;8;1;7;4
 WireConnection;9;0;8;0
@@ -82,4 +82,4 @@ WireConnection;13;1;7;0
 WireConnection;14;0;9;0
 WireConnection;14;1;3;4
 ASEEND*/
-//CHKSM=A7FEEB261E11EA7008D52684A2682C2A4243B10C
+//CHKSM=76298277CDB340D025EBBC81B0D73B18A0FF2C12
