@@ -448,9 +448,6 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnCharge(InputAction.CallbackContext input)
 	{
-		if (HasMic)
-			return;
-		
 		if (!IsAllowDash())
 		{
 			if (input.phase == InputActionPhase.Started)
