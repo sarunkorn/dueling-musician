@@ -18,8 +18,11 @@ public class GameUIController : MonoBehaviour
 	[SerializeField] GameObject _victoryPanel;
 	[SerializeField] GameObject _startPanel;
 
+	GameController _gameController;
+
 	public void Init(GameController controller)
 	{
+		_gameController = controller;
 		foreach (var ui in _PlayerUis)
 		{
 			ui.Root.SetActive(false);
@@ -44,11 +47,18 @@ public class GameUIController : MonoBehaviour
 		PlayerUI playerUI = _PlayerUis[controller.PlayerIndex];
 		playerUI.PerformanceBar.value = controller.Score;
 		playerUI.Root.SetActive(true);
+		controller.GotMic += (_) =>
+		{
+			playerUI.ScoreAnimator.SetBool("Updating", true);
+		};
+		controller.LostMic += (_) =>
+		{
+			playerUI.ScoreAnimator.SetBool("Updating", false);
+		};
 		controller.ScoreUpdated += (score) =>
 		{
 			playerUI.PerformanceBar.value = score;
-			playerUI.ScoreAnimator.SetBool("Updating", true);
-			playerUI.ScoreAnimator.SetFloat("ScoreProgress", score/20f);
+			playerUI.ScoreAnimator.SetFloat("ScoreProgress", score/_gameController.WinScore);
 		};
 	}
 }
